@@ -1,0 +1,43 @@
+from io import BytesIO
+from os.path import basename, isfile, splitext
+from pathlib import Path
+from urllib.parse import urlparse
+
+from PIL import Image, ImageTk
+from requests import get
+
+
+class Photo:
+ savefile={'bytos':False}
+ img=None
+ def __init__(self,file=None):
+  self.file=file
+  self.nodofile=file
+  try:isfiles=isfile(file)
+  except:isfiles=False
+  if isinstance(file,bytes):
+   self.savefile['bytos']=True
+   self.paths=BytesIO(file)
+  elif isinstance(file,BytesIO):
+   self.savefile['bytos']=True
+   self.paths=file
+  elif isfiles:
+   self.paths=Path(file)
+   self.savefile['filename']=self.paths.name
+   self.savefile['name']=self.paths.stem
+   self.savefile['extension']=self.paths.suffix
+  elif not isfiles:
+   try:
+    basenames=basename(urlparse(file).path)
+    self.savefile['filename']=basenames
+    (self.savefile['name'],self.savefile['extension'])=splitext(basenames)
+    self.paths=BytesIO(get(file).content)
+   except:pass
+ def data(self):
+  try:
+   self.img=Image.open(self.paths)
+   self.size=self.img.size
+   if self.size and isinstance(self.size,tuple):self.img=self.img.resize(self.size)
+   self.image=ImageTk.PhotoImage(self.img)
+  except:self.image=self.file
+  return(self.image,self.img,self.savefile)
