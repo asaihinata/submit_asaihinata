@@ -2,8 +2,7 @@
 from os import PathLike
 from typing import *
 
-import numpy as np
-from numpy import ndarray
+from numpy import floating, int_, ndarray, str_
 from numpy.typing import NDArray
 
 type StrPathtype=str|PathLike[str]
@@ -72,7 +71,7 @@ type labeltype=str|list|tuple|None
 '''labeltype型
 
 グラフのラベルに関する型ヒント(str|list|tuple|None)'''
-type o_array=list[int,float,str]|tuple[int,float,str]|NDArray[np.str_]|NDArray[np.int_]|NDArray[np.floating]
+type o_array=list[int,float,str]|tuple[int,float,str]|NDArray[str_]|NDArray[int_]|NDArray[floating]
 '''o_array型
 
 グラフで`x`,`y`,`z`,`data`を指定するさい一次元配列のみを指定するさいの型ヒント'''

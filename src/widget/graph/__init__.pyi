@@ -1,25 +1,25 @@
 from tkinter import Misc
 
-import numpy
 from matplotlib.collections import FillBetweenPolyCollection, PathCollection
 from matplotlib.container import BarContainer, StemContainer
 from matplotlib.lines import Line2D
 from matplotlib.patches import StepPatch, Wedge
 from matplotlib.text import Text
+from numpy import float64, ndarray, object_
+from numpy.typing import NDArray
 
 from ...types import *
 from ..developer import Number
-from ._graphhelp import threeDElement, twoDElement
 
-class LineGraph(twoDElement):
+class LineGraph:
  def __init__(
 self,
 master:Misc=None,
 x:n_array=None,
 y:n_array=None,
 label:labeltype=...,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 linewidth:Numbertype=2,
 alpha:Numbertype=1,
 markersize:Numbertype=10,
@@ -40,9 +40,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -56,9 +58,9 @@ labelalpha:Numbertype=1
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param linewidth: 折線グラフの線の幅を指定する。
  :type linewidth: Numbertype
  :param alpha: グラフの透明度を指定する。
@@ -105,6 +107,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -119,8 +125,8 @@ x:n_array,
 y:n_array,
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str,
 marker:str,
@@ -129,21 +135,40 @@ linestyle:str,
 linewidth:Numbertype,
 alpha:Numbertype
 )->NoReturn:'''折線グラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[Line2D]:'''`Line2D`の配列を返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class BarGraph(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class BarGraph:
  def __init__(
 self,
 master:Misc=None,
 x:o_array=None,
 y:n_array=None,
+logs:bool=False,
+align:Literal['center','edge']='center',
 label:labeltype=...,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 width:Numbertype=1,
 alpha:Numbertype=1,
-align:Literal['center','edge']='center',
 color:Colortype|list[Colortype]|tuple[Colortype]=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
@@ -159,9 +184,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -172,12 +199,14 @@ labelalpha:Numbertype=1
  :type x: o_array
  :param y: `y`のデータを指定する。
  :type y: n_array
+ :param logs: y軸を対数スケールにするかを指定する。
+ :type logs: bool
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param width: 棒グラフのバー幅を指定する。
  :type width: Numbertype
  :param alpha: グラフの透明度を指定する。
@@ -220,6 +249,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -232,27 +265,47 @@ labelalpha:Numbertype=1
 self,
 x:o_array,
 y:n_array,
+logs:bool,
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str,
 width:Numbertype,
 align:Literal['center','edge']
 )->NoReturn:'''棒グラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[BarContainer]:'''`BarContainer`の配列を返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class BarhGraph(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class BarhGraph:
  def __init__(
 self,
 master:Misc=None,
 x:o_array=None,
 y:n_array=None,
+logs:bool=False,
 label:labeltype=...,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 color:Colortype|list[Colortype]|tuple[Colortype]=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
@@ -268,9 +321,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -284,12 +339,14 @@ align:Literal['center','edge']='center'
  :type x: o_array
  :param y: `y`のデータを指定する。
  :type y: n_array
+ :param logs: x軸を対数スケールにするかを指定する。
+ :type logs: bool
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param height: 棒グラフのバーの幅を指定する。
  :type height: Numbertype
  :param alpha: グラフの透明度を指定する。
@@ -332,6 +389,10 @@ align:Literal['center','edge']='center'
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -344,24 +405,44 @@ align:Literal['center','edge']='center'
 self,
 x:o_array,
 y:n_array,
+logs:bool,
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str,
 height:Numbertype,
 align:Literal['center','edge']
 )->NoReturn:'''横向き棒グラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[BarContainer]:'''`BarContainer`の配列を返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class Pie(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class Pie:
  def __init__(
 self,
 master:Misc=None,
 data:o_array=None,
 startangle:Numbertype=0,
+startangletype:bool=True,
 shadow:bool=False,
 counterclock:bool=False,
 labeldistance:Numbertype=1.1,
@@ -397,6 +478,8 @@ dpi:Numbertype=100
  :type label: labeltype
  :param startangle: 各要素の出力を開始する角度を指定する。
  :type startangle: Numbertype
+ :param startangletype: 各要素の出力を開始する角度を度数法(True)か弧度法(False)かを指定する。
+ :type startangletype: bool
  :param shadow: 円グラフに影を追加するか指定する。
  :type shadow: bool
  :param counterclock: 時計回りで出力するか指定する。
@@ -405,6 +488,7 @@ dpi:Numbertype=100
 self,
 data:o_array,
 labeldistance:Numbertype,
+startangletype:bool,
 explode:list[int,float,Number]|tuple[int,float,Number]|int|float|Number,
 startangle:Numbertype,
 shadow:bool,
@@ -415,8 +499,8 @@ graph_grid:Colortype,
 title:str
 )->NoReturn:'''円グラフを再表示させる。'''
  def get(self)->list[list[Wedge],list[Text],list[Text]]|list[list[Wedge],list[Text]]:'''`matplotlib.axes.Axes.pie`の`patches`,`texts`,`autotexts`の配列を返す。'''
- def getdata(self)->numpy.array|None:'''`data`のデータを取得する。'''
-class Boxplot(twoDElement):
+ def getdata(self)->NDArray[object_]:'''`data`のデータを取得する。'''
+class Boxplot:
  def __init__(
 self,
 master:Misc=None,
@@ -429,8 +513,8 @@ fill:bool=False,
 notch:bool=False,
 showfliers:bool=True,
 orientation:Literal['horizontal','vertical']='vertical',
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
 bg:Colortype='#ffffff',
@@ -464,9 +548,9 @@ graph_grid:Colortype='#b7b7b7'
  :param dpi: 1インチあたりのドット数を指定する。
  :type dpi: Numbertype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param width: 箱の幅を指定する。
  :type width: Numbertype
  :param whis: ひげの開始位置を指定する。
@@ -486,14 +570,32 @@ showfliers:bool,
 orientation:Literal['horizontal','vertical'],
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str
 )->NoReturn:'''箱ひげ図を再表示させる。'''
- def get(self)->list[list,list,list,list,list,list]:'''`matplotlib.axes.Axes.boxplot`の戻り値,`boxes`,`medians`,`whiskers`,`caps`,`fliers`,`means`の配列を返す。'''
- def getdata(self)->numpy.array|None:'''`data`のデータを取得する。'''
-class Waterfall(twoDElement):
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
+ def get(self)->list[list]:'''`matplotlib.axes.Axes.boxplot`の戻り値,`boxes`,`medians`,`whiskers`,`caps`,`fliers`,`means`の配列を返す。'''
+ def getdata(self)->NDArray[object_]:'''`data`のデータを取得する。'''
+class Waterfall:
  def __init__(
 self,
 master:Misc=None,
@@ -504,8 +606,8 @@ sumstext:str='sum',
 colorline:Colortype='#4477aa',
 linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']='-',
 label:labeltype=...,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
 bg:Colortype='#ffffff',
@@ -520,9 +622,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -548,9 +652,9 @@ alpha:Numbertype=1
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param size: 表示させるグラフの大きさを指定する。
@@ -585,6 +689,10 @@ alpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -609,8 +717,8 @@ colorline:Colortype,
 linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ',''],
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 ucolor:Colortype,
 dcolor:Colortype,
@@ -618,10 +726,28 @@ width:Numbertype,
 align:Literal['center','edge'],
 alpha:Numbertype
 )->NoReturn:'''滝グラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[BarContainer]:'''`BarContainer`の配列を返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class Waterfallh(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class Waterfallh:
  def __init__(
 self,
 master:Misc=None,
@@ -633,8 +759,8 @@ sumstext:str='sum',
 colorline:Colortype='#4477aa',
 linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']='-',
 label:labeltype=...,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
 bg:Colortype='#ffffff',
@@ -649,9 +775,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -676,9 +804,9 @@ alpha:Numbertype=1
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param size: 表示させるグラフの大きさを指定する。
@@ -713,6 +841,10 @@ alpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -737,8 +869,8 @@ colorline:Colortype,
 linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ',''],
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str,
 ucolor:Colortype,
@@ -747,17 +879,35 @@ height:Numbertype,
 align:Literal['center','edge'],
 alpha:Numbertype
 )->NoReturn:'''横向きの滝グラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[BarContainer]:'''`BarContainer`の配列を返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class Scatter(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class Scatter:
  def __init__(
 self,
 master:Misc=None,
 x:n_array=None,
 y:n_array=None,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 marker:Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']='o',
 markersize:Numbertype=10,
@@ -777,9 +927,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -791,9 +943,9 @@ labelalpha:Numbertype=1
  :param y: `y`のデータを指定する。
  :type y: n_array
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param marker: 散布図のマーカーを指定する。
@@ -838,6 +990,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -852,27 +1008,45 @@ x:n_array,
 y:n_array,
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str,
 marker:str,
 markersize:Numbertype,
 linewidth:Numbertype
 )->NoReturn:'''散布図を再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[PathCollection]:'''`PathCollection`のリストを返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class DScatter(threeDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class DScatter:
  def __init__(
 self,
 master:Misc=None,
 x:n_array=None,
 y:n_array=None,
 z:n_array=None,
-xlabel:str|None=...,
-ylabel:str|None=...,
-zlabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
+zlabel:str=...,
 marker:Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']='o',
 markersize:Numbertype=10,
 alpha:Numbertype=1,
@@ -896,6 +1070,9 @@ yticksshow:bool=False,
 zticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
+znumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -912,11 +1089,11 @@ azim:Numbertype=45
  :param z: `z`のデータを指定する。
  :type z: n_array
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param zlabel: z軸のラベルを指定する。
- :type zlabel: str|None
+ :type zlabel: str
  :param marker: 散布図のマーカーを指定する。
  :type marker: Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']
  :param markersize: 散布図のマーカーの大きさを指定する。
@@ -959,6 +1136,12 @@ azim:Numbertype=45
  :type yticksshow: bool
  :param zticksshow: z軸のグリッド線と目盛り値について表示するかを指定する。
  :type zticksshow: bool
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
+ :param znumticks: z軸の目盛りの数を指定する。
+ :type znumticks: Numbertype|None
  :param xticksdirection: x軸の目盛りの向きを指定する。
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
@@ -991,23 +1174,47 @@ markersize:Numbertype,
 linewidth:Numbertype,
 elev:Numbertype,
 azim:Numbertype,
-xlabel:str|None,
-ylabel:str|None,
-zlabel:str|None
+xlabel:str,
+ylabel:str,
+zlabel:str
 )->NoReturn:'''3Dの散布図を再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸,z軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def invert_z(self)->NoReturn:'''z軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸,z軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getzbound(self)->tuple[float64,float64]:
+  '''z軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray,ndarray]:
+  '''x軸,y軸,z軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
+ def getzticks(self)->ndarray:
+  '''z軸の目盛りの位置を座標で返します。'''
  def get(self)->list[PathCollection]:'''`PathCollection`のリストを返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
- def getz(self)->numpy.array|None:'''`z`のデータを取得する。'''
-class Stem(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+ def getz(self)->NDArray[object_]:'''`z`のデータを取得する。'''
+class Stem:
  def __init__(
 self,
 master:Misc=None,
 x:n_array=None,
 y:n_array=None,
 label:labeltype=...,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 orientation:Literal['horizontal','vertical']='vertical',
 bottom:Numbertype=0,
 marker:Literal['o','+','*','.','x','_','|','square','diamond','^','v','<','>','pentagram','hexagram']=...,
@@ -1027,9 +1234,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1043,9 +1252,9 @@ labelalpha:Numbertype=1
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param orientation: 茎の向きを指定する。
  :type orientation: Literal['horizontal','vertical']
  :param bottom: ベースラインの位置を指定する。
@@ -1090,6 +1299,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1104,8 +1317,8 @@ x:n_array,
 y:n_array,
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str,
 bottom:Numbertype,
@@ -1113,16 +1326,34 @@ orientation:Literal['horizontal','vertical'],
 marker:Literal['o','+','*','.','x','_','|','square','diamond','^','v','<','>','pentagram','hexagram']=...,
 line:Literal['-','--','-.','-.']=...
 )->NoReturn:'''幹図を再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[StemContainer]:'''`StemContainer`のリストを返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class Hist(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class Hist:
  def __init__(
 self,
 master:Misc=None,
 data:o_array=None,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 width:Numbertype=1,
 min:Numbertype=...,
@@ -1130,7 +1361,7 @@ max:Numbertype=...,
 decimalpoint:Numbertype=0,
 orientation:Literal['horizontal','vertical']='vertical',
 bottom:Numbertype=0,
-bins:int|list|range|tuple|numpy.ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']=10,
+bins:int|list|range|tuple|ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']=10,
 color:Colortype|list[Colortype]|tuple[Colortype]=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
@@ -1145,9 +1376,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1158,9 +1391,9 @@ y_verwrit:Literal['horizontal','vertical']='vertical'
  :param data: dataのデータを指定する。
  :type data: o_array
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param width: ヒストグラムのバーのサイズを指定する。
@@ -1176,7 +1409,7 @@ y_verwrit:Literal['horizontal','vertical']='vertical'
  :param decimalpoint: ヒストグラムのbinの小数点を指定する。
  :type decimalpoint: Numbertype
  :param bins: binsを指定する。
- :type bins: int|list|range|tuple|numpy.ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']
+ :type bins: int|list|range|tuple|ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param color: ヒストグラムの色を指定する。
@@ -1211,6 +1444,10 @@ y_verwrit:Literal['horizontal','vertical']='vertical'
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1229,38 +1466,56 @@ bg:Colortype,
 decimalpoint:Numbertype,
 graph_grid:Colortype,
 title:str,
-bins:int|list|range|tuple|numpy.ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt'],
+bins:int|list|range|tuple|ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt'],
 min:Numbertype,
 max:Numbertype,
 bottom:Numbertype,
 orientation:Literal['horizontal','vertical'],
 width:Numbertype
 )->NoReturn:'''ヒストグラムを再表示させる。'''
- def get(self)->list[numpy.ndarray,numpy.ndarray,BarContainer]:'''`matplotlib.axes.Axes.hist`の戻り値,`n`,`bins`,`patches`を返す。'''
- def getrange(self,num:bool=True)->tuple[numpy.float64,numpy.float64]|tuple[float,float]:'''ヒストグラムの`bins`の上限値と下限値をtuple型で返す。
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
+ def get(self)->list[ndarray,ndarray,BarContainer]:'''`matplotlib.axes.Axes.hist`の戻り値,`n`,`bins`,`patches`を返す。'''
+ def getdata(self)->NDArray[object_]:'''`data`のデータを取得する。'''
+ def getrange(self,num:bool=True)->tuple[float64,float64]|tuple[float,float]:'''ヒストグラムの`bins`の上限値と下限値をtuple型で返す。
 
- :param num: 戻り値内の数値がnumpy.float64型(True)で返すかfloat型(False)で返すか指定する。
+ :param num: 戻り値内の数値がfloat64型(True)で返すかfloat型(False)で返すか指定する。
  :type num: bool
- :rtype: tuple[numpy.float64,numpy.float64]|tuple[float,float]'''
- def getmin(self,num:bool=True)->numpy.float64|float:'''ヒストグラムの`bins`の下限値を返す。
+ :rtype: tuple[float64,float64]|tuple[float,float]'''
+ def getmin(self,num:bool=True)->float64|float:'''ヒストグラムの`bins`の下限値を返す。
 
- :param num: 戻り値をnumpy.float64型(True)で返すかfloat型(False)で返すか指定する。
+ :param num: 戻り値をfloat64型(True)で返すかfloat型(False)で返すか指定する。
  :type num: bool
- :rtype: numpy.float64|float'''
- def getmax(self,num:bool=True)->numpy.float64|float:'''ヒストグラムの`bins`の上限値を返す。
+ :rtype: float64|float'''
+ def getmax(self,num:bool=True)->float64|float:'''ヒストグラムの`bins`の上限値を返す。
 
- :param num: 戻り値をnumpy.float64型(True)で返すかfloat型(False)で返すか指定する。
+ :param num: 戻り値をfloat64型(True)で返すかfloat型(False)で返すか指定する。
  :type num: bool
- :rtype: numpy.float64|float'''
- def getdata(self)->numpy.array|None:'''`data`のデータを取得する。'''
-class Step(twoDElement):
+ :rtype: float64|float'''
+class Step:
  def __init__(
 self,
 master:Misc=None,
 data:n_array=...,
 linewidth:Numbertype=2,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 range:int|float|ListNumbertype2|TupleNumbertype2=...,
 fill:bool=False,
 baseline:Numbertype=0,
@@ -1279,9 +1534,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1291,9 +1548,9 @@ label:labeltype=...
 )->None:'''階段グラフを作成する。
 
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param data: dataのデータを指定する。
  :type data: n_array
  :param linewidth: 線の幅を指定する。
@@ -1340,6 +1597,10 @@ label:labeltype=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1363,16 +1624,34 @@ bg:Colortype,
 graph_grid:Colortype,
 title:str
 )->NoReturn:'''円グラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[StepPatch]:'''`StepPatch`を返す。'''
- def getdata(self)->numpy.array|None:'''`data`のデータを取得する。'''
-class Stack(twoDElement):
+ def getdata(self)->NDArray[object_]:'''`data`のデータを取得する。'''
+class Stack:
  def __init__(
 self,
 master:Misc=None,
 x:n_array=None,
 y:n_array=None,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 hatch:Literal[None,'o','oo','O','OO','x','xx','*','**','*-','+','++','+o','-','--',r'-\\','.','..','/','//','/o','O.','O|','\\','\\\\','\\|','o-','x*','|','|*','||']=None,
 baseline:Literal['zero','sym','wiggle','weighted_wiggle']='zero',
@@ -1391,9 +1670,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1411,12 +1692,12 @@ labelalpha:Numbertype=1
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param title: グラフのタイトルを指定する。
  :type title: str
- :param color: 色を指定する。
+ :param color: エリア内のバーの色を指定する。
  :type color: Colortype|list[Colortype]|tuple[Colortype]
  :param size: 表示させるグラフの大きさを指定する。
  :type size: TupleNumbertype2
@@ -1450,6 +1731,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1466,15 +1751,33 @@ hatch:Literal[None,'o','oo','O','OO','x','xx','*','**','*-','+','++','+o','-','-
 baseline:Literal['zero','sym','wiggle','weighted_wiggle'],
 fg:Colortype,
 bg:Colortype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 graph_grid:Colortype,
 title:str
 )->NoReturn:'''散布図を再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[FillBetweenPolyCollection]:'''`FillBetweenPolyCollection`のリストを返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
-class Bubble(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+class Bubble:
  def __init__(
 self,
 master:Misc=None,
@@ -1482,8 +1785,8 @@ x:n_array=None,
 y:n_array=None,
 data:n_array=None,
 bubblesize:Numbertype=1,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 marker:Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']='o',
 alpha:Numbertype=0.5,
 color:Colortype|list[Colortype]|tuple[Colortype]=...,
@@ -1500,9 +1803,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1518,9 +1823,9 @@ labelalpha:Numbertype=1
  :param bubblesize: バブルの大きさの倍率を指定する。
  :type bubblesize: Numbertype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param marker: バブルグラフのマーカーを指定する。
@@ -1565,6 +1870,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1585,14 +1894,32 @@ title:str,
 marker:str,
 markersize:Numbertype,
 linewidth:Numbertype,
-xlabel:str|None,
-ylabel:str|None
+xlabel:str,
+ylabel:str
 )->NoReturn:'''バブルグラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[PathCollection]:'''`PathCollection`のリストを返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def gety(self)->numpy.array|None:'''`y`のデータを取得する。'''
- def getdata(self)->numpy.array|None:'''`data`のデータを取得する。'''
-class Linefill(twoDElement):
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def gety(self)->NDArray[object_]:'''`y`のデータを取得する。'''
+ def getdata(self)->NDArray[object_]:'''`data`のデータを取得する。'''
+class Linefill:
  def __init__(
 self,
 master:Misc=None,
@@ -1601,8 +1928,8 @@ ymin:n_array=...,
 ymax:n_array=...,
 linewidth:Numbertype=0,
 centerlinewidth:Numbertype=2,
-xlabel:str|None=...,
-ylabel:str|None=...,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 alpha:Numbertype=1,
 size:TupleNumbertype2=(500,400),
@@ -1620,9 +1947,11 @@ xmajorint:bool=True,
 ymajorint:bool=True,
 ticksshow:bool=False,
 xticksshow:bool=False,
-yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1640,16 +1969,16 @@ labelalpha:Numbertype=1
  :param centerlinewidth: 線の太さを指定する。
  :type centerlinewidth: Numbertype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param alpha: グラフの透明度を指定する。
  :type alpha: Numbertype
  :param title: グラフのタイトルを指定する。
  :type title: str
- :param color: マーカーの色を指定する。
+ :param color: 領域内の色を指定する。
  :type color: Colortype|list[Colortype]|tuple[Colortype]
  :param size: 表示させるグラフの大きさを指定する。
  :type size: TupleNumbertype2
@@ -1683,6 +2012,10 @@ labelalpha:Numbertype=1
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1699,14 +2032,170 @@ ymax:n_array,
 linewidth:Numbertype,
 centerlinewidth:Numbertype,
 alpha:Numbertype,
-xlabel:str|None,
-ylabel:str|None,
+xlabel:str,
+ylabel:str,
 fg:Colortype,
 bg:Colortype,
 graph_grid:Colortype,
 title:str
 )->NoReturn:'''バブルグラフを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
  def get(self)->list[FillBetweenPolyCollection,Line2D]:'''`PathCollection`のリストを返す。'''
- def getx(self)->numpy.array|None:'''`x`のデータを取得する。'''
- def getymin(self)->numpy.array|None:'''`ymin`のデータを取得する。'''
- def getymax(self)->numpy.array|None:'''`ymax`のデータを取得する。'''
+ def getx(self)->NDArray[object_]:'''`x`のデータを取得する。'''
+ def getymin(self)->NDArray[object_]:'''`ymin`のデータを取得する。'''
+ def getymax(self)->NDArray[object_]:'''`ymax`のデータを取得する。'''
+class Ecdf:
+ def __init__(
+self,
+master:Misc=None,
+data:n_array=...,
+complementary:bool=False,
+compress:bool=False,
+orientation:Literal['horizontal','vertical']='vertical',
+linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']='-',
+linewidth:Numbertype=1.5,
+size:TupleNumbertype2=(500,400),
+fg:Colortype='#000000',
+bg:Colortype='#ffffff',
+color:Colortype|list[Colortype]|tuple[Colortype]=...,
+title:str=...,
+dpi:Numbertype=100,
+graph_grid:Colortype='#b7b7b7',
+grid_xy:bool=True,
+grid_x:bool=False,
+grid_y:bool=False,
+y_verwrit:Literal['horizontal','vertical']='vertical',
+xmajorint:bool=True,
+ymajorint:bool=True,
+ticksshow:bool=False,
+xticksshow:bool=False,
+xticksdirection:Literal['out','in','inout']='out',
+yticksshow:bool=False,
+yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
+labeltitle:str=...,
+labelframe:bool=True,
+labelshadow:bool=False,
+labelalpha:Numbertype=1
+)->None:'''経験的累積分布関数を作成する。
+
+ :param complementary: 補累積分布を描画するか指定する。
+ :type complementary: bool
+ :param compress: 同一値のデータをまとめて最適化するかどうか指定する。
+ :type compress: bool
+ :param orientation: プロットの向きを指定する。
+ :type orientation: Literal['horizontal','vertical']
+ :param linestyle: 線の種類を指定する。
+ :type linestyle: Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']
+ :param linewidth: 線の太さを指定する。
+ :type linewidth: Numbertype
+ :param data: 入力データを指定する。
+ :type data: n_array
+ :param xlabel: x軸のラベルを指定する。
+ :type xlabel: str
+ :param ylabel: y軸のラベルを指定する。
+ :type ylabel: str
+ :param label: ラベルを指定する。
+ :type label: labeltype
+ :param alpha: グラフの透明度を指定する。
+ :type alpha: Numbertype
+ :param title: グラフのタイトルを指定する。
+ :type title: str
+ :param color: 線の色を指定する。
+ :type color: Colortype|list[Colortype]|tuple[Colortype]
+ :param size: 表示させるグラフの大きさを指定する。
+ :type size: TupleNumbertype2
+ :param fg: グラフ内の文字色を指定する。
+ :type fg: Colortype
+ :param bg: グラフ内の背景色を指定する。
+ :type bg: Colortype
+ :param dpi: 1インチあたりのドット数を指定する。
+ :type dpi: Numbertype
+ :param graph_grid: グラフのグリッド線の色を指定する。
+ :type graph_grid: Colortype
+ :param grid_xy: x軸とy軸にグリッド線を表示させるか指定する。`grid_x`,`grid_y`より優先度が高い。
+ :type grid_xy: bool
+ :param grid_x: x軸にグリッド線を表示させるか指定する。grid_xyより優先度が低い。
+ :type grid_x: bool
+ :param grid_y: y軸にグリッド線を表示させるか指定する。grid_xyより優先度が低い。
+ :type grid_y: bool
+ :param y_verwrit: y軸のラベルを縦書きか横書きかを指定する。
+ :type y_verwrit: Literal['horizontal','vertical']
+ :param xmajorint: x軸の目盛りを整数で自動調整させるか指定する。
+ :type xmajorint: bool
+ :param ymajorint: y軸の目盛りを整数で自動調整させるか指定する。
+ :type ymajorint: bool
+ :param ticksshow: x軸,y軸のグリッド線と目盛り値について表示するかを指定する。
+ :type ticksshow: bool
+ :param xticksshow: x軸のグリッド線と目盛り値について表示するかを指定する。
+ :type xticksshow: bool
+ :param yticksshow: y軸のグリッド線と目盛り値について表示するかを指定する。
+ :type yticksshow: bool
+ :param xticksdirection: x軸の目盛りの向きを指定する。
+ :type xticksdirection: Literal['out','in','inout']
+ :param yticksdirection: y軸の目盛りの向きを指定する。
+ :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
+ :param labeltitle: 凡例のタイトルを指定する。
+ :type labeltitle: bool
+ :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
+ :type labelframe: bool
+ :param labelshadow: 凡例に影を付与するか指定する。
+ :type labelshadow: bool
+ :param labelalpha: 凡例の背景の透明度を指定する。
+ :type labelalpha: Numbertype'''
+ def update(
+self,
+data:o_array,
+complementary:bool,
+compress:bool,
+orientation:Literal['horizontal','vertical'],
+linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ',''],
+linewidth:Numbertype,
+fg:Colortype,
+bg:Colortype,
+decimalpoint:Numbertype,
+graph_grid:Colortype,
+title:str
+)->NoReturn:'''ヒストグラムを再表示させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
+ def get(self)->list[Line2D]:'''`Line2D`の配列を返す。'''
+ def getdata(self)->NDArray[object_]:'''`data`のデータを取得する。'''

@@ -92,6 +92,8 @@ class sgg:
  def Bubble(**kw):return{'count':counts(),'type':'Bubble',**kw}
  @staticmethod
  def Linefill(**kw):return{'count':counts(),'type':'Linefill',**kw}
+ @staticmethod
+ def Ecdf(**kw):return{'count':counts(),'type':'Ecdf',**kw}
  @classmethod
  def Popup(cls,**kw):return popup(**kw)
  @classmethod

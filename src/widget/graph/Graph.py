@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from matplotlib.axes._axes import Axes
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from matplotlib.ticker import MaxNLocator
+from matplotlib.ticker import LinearLocator, MaxNLocator
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from numpy import array, ndarray
 
@@ -24,6 +24,7 @@ class GElement:
  def __init__(self,master,kw):
   self.master=master
   self.widget=None
+  self.graph=True
   self._canvas_widget=None
   self.max_depth=1
   self.graphdata=[]
@@ -149,8 +150,12 @@ class twoDElement(GElement):
   self.y:ndarray
   self.data:ndarray
   self.setxy=bols(kw.get('setxy'))
+  self.xnumticks=num0s(kw.get('xnumticks'),None)
+  self.ynumticks=num0s(kw.get('ynumticks'),None)
   self.ax.xaxis.set_major_locator(MaxNLocator(integer=self.xmajorint))
+  self.ax.xaxis.set_major_locator(LinearLocator(numticks=self.xnumticks))
   self.ax.yaxis.set_major_locator(MaxNLocator(integer=self.ymajorint))
+  self.ax.yaxis.set_major_locator(LinearLocator(numticks=self.ynumticks))
  def _apply_theme_colors(self):
   self.ax.set_facecolor(self.graph_bg)
   self.ax.tick_params(colors=self.fg)
@@ -200,14 +205,17 @@ class twoDElement(GElement):
   self.ax.clear()
   self._ticks()
   self._apply_theme_colors()
- def invert_all(self):
+ def invert(self):
   self.invert_y()
   self.invert_x()
  def invert_x(self):self.ax.invert_xaxis()
  def invert_y(self):self.ax.invert_yaxis()
- def getbound(self):return(self.getxbound(),self.getybound)
+ def getbound(self):return(self.ax.get_xbound(),self.ax.get_ybound())
  def getxbound(self):return self.ax.get_xbound()
  def getybound(self):return self.ax.get_ybound()
+ def getticks(self):return(self.ax.get_xticks(),self.ax.get_yticks())
+ def getxticks(self):return self.ax.get_xticks()
+ def getyticks(self):return self.ax.get_yticks()
 class threeDElement(GElement):
  def __init__(self,master,kw):
   super().__init__(master,kw)
@@ -236,6 +244,12 @@ class threeDElement(GElement):
   if bols(kw.get('mouse_rotation')):self.ax.disable_mouse_rotation()
   self.ax.view_init(self.elev,self.azim)
   self._apply_theme_colors()
+  self.xnumticks=num0s(kw.get('xnumticks'),None)
+  self.ynumticks=num0s(kw.get('ynumticks'),None)
+  self.znumticks=num0s(kw.get('znumticks'),None)
+  self.ax.xaxis.set_major_locator(LinearLocator(numticks=self.xnumticks))
+  self.ax.yaxis.set_major_locator(LinearLocator(numticks=self.ynumticks))
+  self.ax.zaxis.set_major_locator(LinearLocator(numticks=self.znumticks))
   self.ax.xaxis.set_major_locator(MaxNLocator(integer=self.xmajorint))
   self.ax.yaxis.set_major_locator(MaxNLocator(integer=self.ymajorint))
   self.ax.zaxis.set_major_locator(MaxNLocator(integer=self.zmajorint))
@@ -285,10 +299,18 @@ class threeDElement(GElement):
    if self.zticksshow:self.ax.set_zticks([])
   plt.rcParams['xtick.direction']=self.xticksdirection
   plt.rcParams['ytick.direction']=self.yticksdirection
- def invert_all(self):
-  self.invert_x()
-  self.invert_y()
-  self.invert_z()
+ def invert(self):
+  self.ax.invert_xaxis()
+  self.ax.invert_yaxis()
+  self.ax.invert_zaxis()
  def invert_x(self):self.ax.invert_xaxis()
  def invert_y(self):self.ax.invert_yaxis()
  def invert_z(self):self.ax.invert_zaxis()
+ def getbound(self):return(self.ax.get_xbound(),self.ax.get_ybound(),self.ax.get_zbound())
+ def getxbound(self):return self.ax.get_xbound()
+ def getybound(self):return self.ax.get_ybound()
+ def getzbound(self):return self.ax.get_zbound()
+ def getticks(self):return(self.ax.get_xticks(),self.ax.get_yticks(),self.ax.get_zticks())
+ def getxticks(self):return self.ax.get_xticks()
+ def getyticks(self):return self.ax.get_yticks()
+ def getzticks(self):return self.ax.get_zticks()

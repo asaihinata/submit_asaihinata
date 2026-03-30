@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from typing import Any, NoReturn, TypeVar, overload
 
-import numpy
+from numpy import ndarray
 
 from ..types import Numbertype
 
@@ -16,7 +16,7 @@ loc:Numbertype=0,
 scale:Numbertype=1,
 lenght:int=1,
 hierarchy:int=1
-)->numpy.ndarray:'''指定された行数と列数分のランダムに生成された正規分布のnumpyの配列を返す。
+)->ndarray:'''指定された行数と列数分のランダムに生成された正規分布のnumpyの配列を返す。
 
  :param loc: 分布の平均値を指定する。
  :type loc: int
@@ -27,7 +27,7 @@ hierarchy:int=1
  :param hierarchy: 生成される配列の行数を指定する。
  :type hierarchy: int
  :return: 指定された行数と列数分の正規分布のnumpyの配列を返す。
- :rtype: numpy.ndarray'''
+ :rtype: ndarray'''
  @classmethod
  def rand(
 cls,
@@ -36,7 +36,7 @@ maxs:Numbertype=1,
 lenght:int=1,
 hierarchy:int=1,
 number:bool=True
-)->numpy.ndarray:'''指定された行数と列数分のランダムに生成されたnumpyの配列を返す。
+)->ndarray:'''指定された行数と列数分のランダムに生成されたnumpyの配列を返す。
 
  :param mins: 生成される値の最低値を指定する。
  :type mins: Numbertype
@@ -49,7 +49,7 @@ number:bool=True
  :param number: ランダムに生成される値がint型(True)かfloat型(False)かを指定する。
  :type number: bool
  :return: 指定された行数と列数分のnumpyの配列を返す。
- :rtype: numpy.ndarray'''
+ :rtype: ndarray'''
 class sort:
  __static_attributes__:tuple[str]
  __class__:type
@@ -82,7 +82,7 @@ class LIST:
  __static_attributes__:tuple[str]
  __class__:type
  __firstlineno__:int
- def __init__(self,lists:list|tuple|range|numpy.ndarray,*arg:tuple)->None:'''配列を作成する。'''
+ def __init__(self,lists:list|tuple|range|ndarray,*arg:tuple)->None:'''配列を作成する。'''
  def __add__(self,val:list|tuple|LIST)->LIST:...
  def __radd__(self,val:list|tuple|LIST)->LIST:...
  def __iadd__(self,val:Any)->LIST:...

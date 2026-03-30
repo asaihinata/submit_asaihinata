@@ -1,7 +1,6 @@
 from os import PathLike
 
-import numpy as np
-from numpy import ndarray
+from numpy import floating, int_, ndarray, str_
 from numpy.typing import NDArray
 
 # str type
@@ -37,5 +36,5 @@ def _f():pass
 FunctionType=type(_f)
 # graph type
 type labeltype=str|list|tuple|None
-type o_array=list[int,float,str]|tuple[int,float,str]|NDArray[np.str_]|NDArray[np.int_]|NDArray[np.floating]
+type o_array=list[int,float,str]|tuple[int,float,str]|NDArray[str_]|NDArray[int_]|NDArray[floating]
 type n_array=list|tuple|NDArray

@@ -9,14 +9,18 @@ class BarGraph(twoDElement):
   self.x=self._onearr(kw.get('x'))
   self.y=self._manyarr(kw.get('y'))
   self.colorlist=self._list_loop(self.colorlist,self.max_depth)
+  self.logs=bols(kw.get('logs'),False)
   self.label=self.labels(kw.get('label'))
   self.alpha=range_num(num0s(kw.get('alpha'),1),0,1,1)
   self.width=range_num(num0s(kw.get('width'),1),0,1,1)
   self.align=listchose(kw.get('align'),['center','edge'])
-  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,width=self.width,align=self.align)
- def plot(self,x,y,label=None,xlabel=None,ylabel=None,alpha=1,width=0.8,align='center'):
+  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,width=self.width,align=self.align,logs=self.logs)
+ def plot(self,x,y,label=None,xlabel=None,ylabel=None,alpha=1,width=0.8,align='center',logs=False):
   self.clear()
-  self.graphdata=[self.ax.bar(xs,ys,label=label[i],color=self.colorlist[i],alpha=alpha,width=width,edgecolor=self.colorlist[i],align=align)for i,(xs,ys) in enumerate(product(x,y))]
+  for i,(xs,ys) in enumerate(product(x,y)):
+   color=self.colorlist[i]
+   self.graphdata.append(self.ax.bar(xs,ys,log=logs,label=label[i],color=color,alpha=alpha,width=width,edgecolor=color,align=align))
+  self.ax.set_yticks(ticks=self.ax.get_yticks())
   self._apply_labels(xlabel,ylabel)
   self.legend()
  def update(self,x=None,y=None,**kw):
@@ -27,7 +31,8 @@ class BarGraph(twoDElement):
   self.alpha=range_num(num0s(kw.get('alpha'),1),0,1,self.alpha)
   self.width=range_num(num0s(kw.get('width'),1),0,1,self.width)
   self.align=listchose(kw.get('align'),['center','edge'],self.align)
-  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,width=self.width,align=self.align)
+  self.logs=bols(kw.get('logs'),self.logs)
+  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,width=self.width,align=self.align,log=self.logs)
   self._redraw()
  def get(self):return self.graphdata
  def getx(self):return self.x
@@ -38,14 +43,18 @@ class BarhGraph(twoDElement):
   self.x=self._onearr(kw.get('x'))
   self.y=self._manyarr(kw.get('y'))
   self.colorlist=self._list_loop(self.colorlist,self.max_depth)
+  self.logs=bols(kw.get('logs'),False)
   self.label=self.labels(kw.get('label'))
   self.alpha=range_num(num0s(kw.get('alpha'),1),0,1,1)
   self.height=range_num(num0s(kw.get('height'),1),0,1,1)
   self.align=listchose(kw.get('align'),['center','edge'])
-  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,height=self.height,align=self.align)
- def plot(self,x,y,label=None,xlabel=None,ylabel=None,alpha=1,height=1,align='center'):
+  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,height=self.height,align=self.align,logs=self.logs)
+ def plot(self,x,y,label=None,xlabel=None,ylabel=None,alpha=1,height=1,align='center',logs=False):
   self.clear()
-  self.graphdata=[self.ax.barh(xs,ys,label=label[i],color=self.colorlist[i],alpha=alpha,height=height,align=align)for i,(xs,ys) in enumerate(product(x,y))]
+  for i,(xs,ys) in enumerate(product(x,y)):
+   color=self.colorlist[i]
+   self.graphdata.append(self.ax.barh(xs,ys,label=label[i],color=color,alpha=alpha,height=height,align=align,edgecolor=color,log=logs))
+  self.ax.set_xticks(ticks=self.ax.get_xticks())
   self._apply_labels(xlabel,ylabel)
   self.legend()
  def update(self,x=None,y=None,**kw):
@@ -56,7 +65,8 @@ class BarhGraph(twoDElement):
   self.alpha=range_num(num0s(kw.get('alpha'),1),0,1,self.alpha)
   self.height=range_num(num0s(kw.get('height'),1),0,1,self.height)
   self.align=listchose(kw.get('align'),['center','edge'],self.align)
-  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,height=self.height,align=self.align)
+  self.logs=bols(kw.get('logs'),self.logs)
+  self.plot(self.x,self.y,label=self.label,xlabel=self.xlabel,ylabel=self.ylabel,alpha=self.alpha,height=self.height,align=self.align,log=self.logs)
   self._redraw()
  def get(self):return self.graphdata
  def getx(self):return self.x

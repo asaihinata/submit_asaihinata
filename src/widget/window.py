@@ -133,10 +133,11 @@ class WindowController:
   elif t=='Hist':widget=Hist(parent,kw)
   elif t=='Bubble':widget=Bubble(parent,kw)
   elif t=='Linefill':widget=Linefill(parent,kw)
+  elif t=='Ecdf':widget=Ecdf(parent,kw)
   else:widget=Texts(parent,{'text':f'Unknown element:{t}'})
   if widget:
    if t=='Menus':self.root.config(menu=widget.widget)
-   elif t in ['BarGraph','BarhGraph','Boxplot','Bubble','DBarGraph','DScatter','hist','Hist','LineGraph','Pie','Scatter','Stack','Stem','Step','Waterfall','Waterfallh','Linefill']:widget._pack()
+   elif widget.graph==True:widget._pack()
    else:
     try:widget.widget.pack(side='left',padx=5,pady=5)
     except Exception as e:

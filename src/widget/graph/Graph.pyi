@@ -1,9 +1,9 @@
 from tkinter import Misc
 
-import numpy
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d.axes3d import Axes3D
+from numpy import float64, ndarray
 
 from ...types import *
 
@@ -87,15 +87,15 @@ loc:Literal['best','upper right','upper left','lower left','lower right','right'
 参考
 ----
 * https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html'''
- def _arr(self,val:NpArraytype,j:bool=True)->numpy.ndarray:'''
+ def _arr(self,val:NpArraytype,j:bool=True)->ndarray:'''
  :param val: 配列を指定する。
  :type val: NpArraytype
  :raises ValueError: NpArraytype型以外を指定した場合に発生させる。
- :rtype: numpy.ndarray'''
- def _floatarr(self,val:NpArraytype)->numpy.ndarray:...
- def _manyarr(self,val:NpArraytype,j:bool=True)->numpy.ndarray:...
- def _onearr(self,val:NpArraytype,j:bool=True)->numpy.ndarray:...
- def _dataarr(self,val:NpArraytype,j:bool=True)->numpy.ndarray:...
+ :rtype: ndarray'''
+ def _floatarr(self,val:NpArraytype)->ndarray:...
+ def _manyarr(self,val:NpArraytype,j:bool=True)->ndarray:...
+ def _onearr(self,val:NpArraytype,j:bool=True)->ndarray:...
+ def _dataarr(self,val:NpArraytype,j:bool=True)->ndarray:...
  def _pack(self)->NoReturn:'''ウィジェットを親ウィジェット内に配置します。'''
  def _redraw(self)->NoReturn:...
  def _size(self,sizes:TupleNumbertype2=(500,400))->TupleNumbertype2:'''グラフの大きさのサイズを定める。
@@ -156,9 +156,9 @@ setxy:bool=True
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout'] '''
   self.ax:Axes
-  self.x:numpy.ndarray
-  self.y:numpy.ndarray
-  self.data:numpy.ndarray
+  self.x:ndarray
+  self.y:ndarray
+  self.data:ndarray
   self.label:labeltype
   self.xlabel:labeltype
   self.ylabel:labeltype
@@ -191,9 +191,24 @@ zlabel:labeltype=None
  :rtype: NoReturn'''
  def _xys(self,x,y)->tuple:...
  def clear(self)->NoReturn:'''グラフ内のグラフをクリアする。'''
- def invert_all(self):'''x軸,y軸を反転させる。'''
- def invert_x(self):'''x軸を反転させる。'''
- def invert_y(self):'''y軸を反転させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64]
+]:
+  '''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:
+  '''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
 class threeDElement(GElement):
  def __init__(
 self,
@@ -306,7 +321,26 @@ zlabel:labeltype=None
  :type zlabel: labeltype'''
  def _apply_grid(self)->NoReturn:'''グリッド線を加えるメソッド。'''
  def clear(self)->NoReturn:'''グラフ内のグラフをクリアする。'''
- def invert_all(self):'''x軸,y軸,z軸を反転させる。'''
- def invert_x(self):'''x軸を反転させる。'''
- def invert_y(self):'''y軸を反転させる。'''
- def invert_z(self):'''z軸を反転させる。'''
+ def invert(self)->NoReturn:'''x軸,y軸,z軸を反転させる。'''
+ def invert_x(self)->NoReturn:'''x軸を反転させる。'''
+ def invert_y(self)->NoReturn:'''y軸を反転させる。'''
+ def invert_z(self)->NoReturn:'''z軸を反転させる。'''
+ def getbound(self)->tuple[
+tuple[float64,float64],
+tuple[float64,float64],
+tuple[float64,float64]
+]:'''x軸,y軸,z軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:
+  '''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:
+  '''y軸の下限値と上限値を昇順で返す。'''
+ def getzbound(self)->tuple[float64,float64]:
+  '''z軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray,ndarray]:
+  '''x軸,y軸,z軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:
+  '''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:
+  '''y軸の目盛りの位置を座標で返します。'''
+ def getzticks(self)->ndarray:
+  '''z軸の目盛りの位置を座標で返します。'''

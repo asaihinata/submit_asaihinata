@@ -1,6 +1,7 @@
 from ._2D.bargraph import BarGraph, BarhGraph
 from ._2D.boxplot import Boxplot
 from ._2D.bubble import Bubble
+from ._2D.ecdf import Ecdf
 from ._2D.hist import Hist
 from ._2D.linefill import Linefill
 from ._2D.linegraph import LineGraph

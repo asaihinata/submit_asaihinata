@@ -56,7 +56,7 @@ class SCapstyle:
  def __str__(self):return self.style[0]
 class Angle:
  '''角度をサポートする。'''
- def __init__(self,val:Numbertype,now:Literal['degrees','radian']='degrees',do:Literal['degrees','radian']='degrees'):
+ def __init__(self,val:Numbertype,now:Literal['degrees','radian']='degrees',do:Literal['radian','degrees']='radian'):
   now,do=listchose(now,['degrees','radian']),listchose(do,['degrees','radian'])
   if not isinstance(val,Numbertype):val=0
   if now==do:self.val=val

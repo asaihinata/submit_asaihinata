@@ -3,7 +3,7 @@ from datetime import datetime
 from tkinter import StringVar, _Cursor
 from typing import Union
 
-import numpy
+from numpy import ndarray
 
 from .types import *
 from .widget import *
@@ -53,7 +53,7 @@ weight:Literal['normal','bold']='normal',
 slant:Literal['roman','italic']='roman',
 underline:bool=False,
 overstrike:bool=False,
-takefocus:bool=...,
+takefocus:bool=True,
 key:str=...,
 bd:Numbertype=0,
 pady:Numbertype=...,
@@ -72,7 +72,7 @@ relief:Literal['raised','sunken','flat','ridge','solid','groove']='flat'
 text:str=...,
 link:Linktype|None=None,
 key:str=...,
-takefocus:bool=...,
+takefocus:bool=True,
 pady:Numbertype=...,
 padx:Numbertype=...,
 wraplength:Numbertype=0,
@@ -101,7 +101,7 @@ relief:Literal['raised','sunken','flat','ridge','solid','groove']='flat'
 path:str=...,
 byto:bytes=...,
 name:str='No Images',
-takefocus:bool=...,
+takefocus:bool=True,
 key:str=...
 )->dict:'''画像を生成する。
 
@@ -116,7 +116,7 @@ key:str=...
 text:str=...,
 function:function=...,
 key:str=...,
-takefocus:bool=...,
+takefocus:bool=True,
 pady:Numbertype=...,
 padx:Numbertype=...,
 wraplength:Numbertype=0,
@@ -148,7 +148,7 @@ insertbg:Colortype='#000000',
 width:Numbertype=20,
 key:str=...,
 bd:Numbertype=0,
-takefocus:bool=...,
+takefocus:bool=True,
 cursor:_Cursor=...,
 bg:Colortype=...,
 fg:Colortype=...,
@@ -181,7 +181,7 @@ width:Numbertype=20,
 height:Numbertype=5,
 key:str=...,
 bd:Numbertype=1,
-takefocus:bool=...,
+takefocus:bool=True,
 padx:Numbertype=...,
 pady:Numbertype=...,
 cursor:_Cursor=...,
@@ -352,7 +352,7 @@ title:str=...,
 layout:list=...,
 labelanchor:Literal['nw','n','ne','w','center','e','sw','s','se']='nw',
 key:str=...,
-takefocus:bool=...,
+takefocus:bool=True,
 pady:Numbertype=...,
 padx:Numbertype=...,
 cursor:_Cursor=...,
@@ -378,7 +378,7 @@ bd:Numbertype=1
  def Menus(
 list:list=...,
 tearoff:bool=False,
-takefocus:bool=...,
+takefocus:bool=True,
 cursor:_Cursor=...,
 bg:Colortype=...,
 fg:Colortype=...,
@@ -403,7 +403,7 @@ list:list=...,
 text:str=...,
 tearoff:bool=False,
 key:str=...,
-takefocus:bool=...,
+takefocus:bool=True,
 pady:Numbertype=...,
 padx:Numbertype=...,
 cursor:_Cursor=...,
@@ -431,7 +431,7 @@ relief:Literal['raised','sunken','flat','ridge','solid','groove']='flat'
 layout:list[list]=[[]],
 key:str=...,
 bd:Numbertype=0,
-takefocus:bool=...,
+takefocus:bool=True,
 pady:Numbertype=...,
 padx:Numbertype=...,
 cursor:_Cursor=...,
@@ -708,8 +708,8 @@ key:str=...
 x:n_array=...,
 y:n_array=...,
 label:labeltype=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 linewidth:Numbertype=2,
 alpha:Numbertype=1,
 markersize:Numbertype=10,
@@ -733,6 +733,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -747,9 +749,9 @@ key:str=...
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param linewidth: 折線グラフの線の幅を指定する。
  :type linewidth: Numbertype
  :param alpha: グラフの透明度を指定する。
@@ -796,6 +798,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -808,9 +814,10 @@ key:str=...
  def BarGraph(
 x:o_array=...,
 y:n_array=...,
+logs:bool=False,
 label:labeltype=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 linewidth:Numbertype=2,
 width:Numbertype=1,
 alpha:Numbertype=1,
@@ -833,6 +840,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -844,12 +853,14 @@ key:str=...
  :type x: o_array
  :param y: `y`のデータを指定する。
  :type y: n_array
+ :param logs: y軸を対数スケールにするかを指定する。
+ :type logs: bool
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param linewidth: 折線グラフの線の幅を指定する。
  :type linewidth: Numbertype
  :param width: 棒グラフのバー幅を指定する。
@@ -894,6 +905,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -906,9 +921,10 @@ key:str=...
  def BarhGraph(
 x:o_array=...,
 y:n_array=...,
+logs:bool=False,
 label:labeltype=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 linewidth:Numbertype=2,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
@@ -928,6 +944,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -942,12 +960,14 @@ key:str=...
  :type x: o_array
  :param y: `y`のデータを指定する。
  :type y: n_array
+ :param logs: x軸を対数スケールにするかを指定する。
+ :type logs: bool
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param linewidth: 折線グラフの線の幅を指定する。
  :type linewidth: Numbertype
  :param height: 棒グラフのバーの幅を指定する。
@@ -992,6 +1012,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1005,6 +1029,7 @@ key:str=...
 data:o_array=...,
 label:labeltype=...,
 startangle:Numbertype=0,
+startangletype:bool=True,
 shadow:bool=False,
 counterclock:bool=False,
 labeldistance:Numbertype=1.1,
@@ -1040,6 +1065,8 @@ key:str=...
  :type label: labeltype
  :param startangle: 各要素の出力を開始する角度を指定する。
  :type startangle: Numbertype
+ :param startangletype: 各要素の出力を開始する角度を度数法(True)か弧度法(False)かを指定する。
+ :type startangletype: bool
  :param shadow: 円グラフに影を追加するか指定する。
  :type shadow: bool
  :param counterclock: 時計回りで出力するか指定する。
@@ -1084,9 +1111,9 @@ key:str=...
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param size: 表示させるグラフの大きさを指定する。
  :type size: TupleNumbertype2
  :param fg: グラフ内の文字色を指定する。
@@ -1110,8 +1137,8 @@ sumstext:str='sum',
 colorline:Colortype='#4477aa',
 linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']='-',
 label:labeltype=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
 bg:Colortype='#ffffff',
@@ -1129,6 +1156,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1155,9 +1184,9 @@ key:str=...
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param size: 表示させるグラフの大きさを指定する。
@@ -1192,6 +1221,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1217,8 +1250,8 @@ sumstext:str='sum',
 colorline:Colortype='#4477aa',
 linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']='-',
 label:labeltype=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
 bg:Colortype='#ffffff',
@@ -1237,6 +1270,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1263,9 +1298,9 @@ key:str=...
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param size: 表示させるグラフの大きさを指定する。
@@ -1300,6 +1335,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1320,8 +1359,8 @@ key:str=...
  def Scatter(
 x:n_array=...,
 y:n_array=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 marker:Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']='o',
 markersize:Numbertype=10,
@@ -1344,6 +1383,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1356,9 +1397,9 @@ key:str=...
  :param y: `y`のデータを指定する。
  :type y: n_array
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param marker: 散布図のマーカーを指定する。
@@ -1403,6 +1444,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1416,9 +1461,9 @@ key:str=...
 x:n_array=...,
 y:n_array=...,
 z:n_array=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
-zlabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
+zlabel:str=...,
 marker:Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']='o',
 markersize:Numbertype=10,
 alpha:Numbertype=1,
@@ -1442,6 +1487,9 @@ yticksshow:bool=False,
 zticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
+znumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1459,11 +1507,11 @@ key:str=...
  :param z: `z`のデータを指定する。
  :type z: n_array
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param zlabel: z軸のラベルを指定する。
- :type zlabel: str|None
+ :type zlabel: str
  :param marker: 散布図のマーカーを指定する。
  :type marker: Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']
  :param markersize: 散布図のマーカーの大きさを指定する。
@@ -1504,12 +1552,18 @@ key:str=...
  :type xticksshow: bool
  :param yticksshow: y軸のグリッド線と目盛り値について表示するかを指定する。
  :type yticksshow: bool
+ :param zticksshow: z軸のグリッド線と目盛り値について表示するかを指定する。
+ :type zticksshow: bool
  :param xticksdirection: x軸の目盛りの向きを指定する。
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
- :param zticksshow: z軸のグリッド線と目盛り値について表示するかを指定する。
- :type zticksshow: bool
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
+ :param znumticks: z軸の目盛りの数を指定する。
+ :type znumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1529,8 +1583,8 @@ key:str=...
 x:NpArraytype=...,
 y:NpArraytype=...,
 label:labeltype=...,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 orientation:Literal['horizontal','vertical']='vertical',
 bottom:Numbertype=0,
 size:TupleNumbertype2=(500,400),
@@ -1553,6 +1607,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1567,9 +1623,9 @@ key:str=...
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param orientation: 茎の向きを指定する。
  :type orientation: Literal['horizontal','vertical']
  :param bottom: ベースラインの位置を指定する。
@@ -1599,9 +1655,9 @@ key:str=...
  :param grid_y: y軸にグリッド線を表示させるか指定する。grid_xyより優先度が低い。
  :type grid_y: bool
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param y_verwrit: y軸のラベルを縦書きか横書きかを指定する。
  :type y_verwrit: Literal['horizontal','vertical']
  :param xmajorint: x軸の目盛りを整数で自動調整させるか指定する。
@@ -1618,6 +1674,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1650,6 +1710,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1662,9 +1724,9 @@ key:str=...
 )->dict:'''階段グラフを生成する。
 
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param data: `data`のデータを指定する。
  :type data: n_array
  :param range: 階段の端の座標を配列もしくは数値で指定する。
@@ -1709,6 +1771,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1729,7 +1795,7 @@ max:Numbertype=...,
 decimalpoint:Numbertype=0,
 orientation:Literal['horizontal','vertical']='vertical',
 bottom:Numbertype=0,
-bins:int|list|range|tuple|numpy.ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']=10,
+bins:int|list|range|tuple|ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']=10,
 size:TupleNumbertype2=(500,400),
 fg:Colortype='#000000',
 bg:Colortype='#ffffff',
@@ -1747,6 +1813,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1758,9 +1826,9 @@ key:str=...
 )->dict:'''ヒストグラムを生成する。
 
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param data: `data`のデータを指定する。
  :type data: o_array
  :param label: ラベルを指定する。
@@ -1778,7 +1846,7 @@ key:str=...
  :param decimalpoint: ヒストグラムのbinの小数点を指定する。
  :type decimalpoint: Numbertype
  :param bins: `bins`を指定する。
- :type bins: int|list|range|tuple|numpy.ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']
+ :type bins: int|list|range|tuple|np.ndarray|Literal['auto','fd','doane','scott','stone','rice','sturges','sqrt']
  :param title: グラフのタイトルを指定する。
  :type title: str
  :param color: ヒストグラムの色を指定する。
@@ -1813,6 +1881,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1851,6 +1923,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1865,9 +1939,9 @@ key:str=...
  :param label: ラベルを指定する。
  :type label: labeltype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param hatch: 塗りつぶし領域内の模様を指定する。
  :type hatch: Literal[None,'o','oo','O','OO','x','xx','*','**','*-','+','++','+o','-','--',r'-\\','.','..','/','//','/o','O.','O|','\\','\\\\','\\|','o-','x*','|','|*','||']
  :param baseline: 基準値の算出方法を指定する。
@@ -1878,7 +1952,7 @@ key:str=...
  :type align: Literal['center','edge']
  :param title: グラフのタイトルを指定する。
  :type title: str
- :param color: 棒グラフのバーの色を指定する。
+ :param color: エリア内のバーの色を指定する。
  :type color: Colortype|list[Colortype]|tuple[Colortype]
  :param size: 表示させるグラフの大きさを指定する。
  :type size: TupleNumbertype2
@@ -1912,6 +1986,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -1929,8 +2007,8 @@ bubblesize:Numbertype=1,
 marker:Literal['1','2','3','4','8','circle','d','diamond','D','h','hline','H','none','None',None,'o','octagon','p','pentagon','pixel','plus','point','P','s','square','star','triangle','v','vline','x','X','hexagon1','hexagon2',' ','*','+',',','.','<','>',']','^','_','plus-filled','thin_diamond','tri_down','tri_left','tri_right','tri_up','triangle_down','triangle_left','triangle_right','triangle_up','|']='o',
 markersize:Numbertype=10,
 linewidth:Numbertype=2,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 alpha:Numbertype=1,
 size:TupleNumbertype2=(500,400),
@@ -1951,6 +2029,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -1971,9 +2051,9 @@ key:str=...
  :param markersize: 散布図のマーカーの大きさを指定する。
  :type markersize: Numbertype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param alpha: グラフの透明度を指定する。
@@ -2014,6 +2094,10 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
@@ -2029,8 +2113,8 @@ ymin:n_array=...,
 ymax:n_array=...,
 linewidth:Numbertype=0,
 centerlinewidth:Numbertype=2,
-xlabel:str|None=None,
-ylabel:str|None=None,
+xlabel:str=...,
+ylabel:str=...,
 label:labeltype=...,
 alpha:Numbertype=1,
 size:TupleNumbertype2=(500,400),
@@ -2051,6 +2135,8 @@ xticksshow:bool=False,
 yticksshow:bool=False,
 xticksdirection:Literal['out','in','inout']='out',
 yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
 labeltitle:str=...,
 labelframe:bool=True,
 labelshadow:bool=False,
@@ -2069,16 +2155,16 @@ key:str=...
  :param centerlinewidth: 線の太さを指定する。
  :type centerlinewidth: Numbertype
  :param xlabel: x軸のラベルを指定する。
- :type xlabel: str|None
+ :type xlabel: str
  :param ylabel: y軸のラベルを指定する。
- :type ylabel: str|None
+ :type ylabel: str
  :param label: ラベルを指定する。
  :type label: labeltype
  :param alpha: グラフの透明度を指定する。
  :type alpha: Numbertype
  :param title: グラフのタイトルを指定する。
  :type title: str
- :param color: マーカーの色を指定する。
+ :param color: 領域内の色を指定する。
  :type color: Colortype|list[Colortype]|tuple[Colortype]
  :param size: 表示させるグラフの大きさを指定する。
  :type size: TupleNumbertype2
@@ -2112,6 +2198,113 @@ key:str=...
  :type xticksdirection: Literal['out','in','inout']
  :param yticksdirection: y軸の目盛りの向きを指定する。
  :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
+ :param labeltitle: 凡例のタイトルを指定する。
+ :type labeltitle: bool
+ :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
+ :type labelframe: bool
+ :param labelshadow: 凡例に影を付与するか指定する。
+ :type labelshadow: bool
+ :param labelalpha: 凡例の背景の透明度を指定する。
+ :type labelalpha: Numbertype'''
+ @staticmethod
+ def Ecdf(
+data:n_array=...,
+complementary:bool=False,
+compress:bool=False,
+orientation:Literal['horizontal','vertical']='vertical',
+linestyle:Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']='-',
+linewidth:Numbertype=1.5,
+size:TupleNumbertype2=(500,400),
+fg:Colortype='#000000',
+bg:Colortype='#ffffff',
+color:Colortype|list[Colortype]|tuple[Colortype]=...,
+title:str=...,
+dpi:Numbertype=100,
+graph_grid:Colortype='#b7b7b7',
+grid_xy:bool=True,
+grid_x:bool=False,
+grid_y:bool=False,
+y_verwrit:Literal['horizontal','vertical']='vertical',
+xmajorint:bool=True,
+ymajorint:bool=True,
+ticksshow:bool=False,
+xticksshow:bool=False,
+yticksshow:bool=False,
+xticksdirection:Literal['out','in','inout']='out',
+yticksdirection:Literal['out','in','inout']='out',
+xnumticks:Numbertype|None=None,
+ynumticks:Numbertype|None=None,
+labeltitle:str=...,
+labelframe:bool=True,
+labelshadow:bool=False,
+labelalpha:Numbertype=1,
+key:str=...
+):'''経験的累積分布関数を作成する。
+
+ :param data: 入力データを指定する。
+ :type data: n_array
+ :param complementary: 補累積分布を描画するか指定する。
+ :type complementary: bool
+ :param compress: 同一値のデータをまとめて最適化するかどうか指定する。
+ :type compress: bool
+ :param orientation: プロットの向きを指定する。
+ :type orientation: Literal['horizontal','vertical']
+ :param linestyle: 線の種類を指定する。
+ :type linestyle: Literal['solid','-','dashed','--','dash-dot','-.','dotted',':','none',None,' ','']
+ :param linewidth: 線の太さを指定する。
+ :type linewidth: Numbertype
+ :param xlabel: x軸のラベルを指定する。
+ :type xlabel: str
+ :param ylabel: y軸のラベルを指定する。
+ :type ylabel: str
+ :param label: ラベルを指定する。
+ :type label: labeltype
+ :param alpha: グラフの透明度を指定する。
+ :type alpha: Numbertype
+ :param title: グラフのタイトルを指定する。
+ :type title: str
+ :param color: 線の色を指定する。
+ :type color: Colortype|list[Colortype]|tuple[Colortype]
+ :param size: 表示させるグラフの大きさを指定する。
+ :type size: TupleNumbertype2
+ :param fg: グラフ内の文字色を指定する。
+ :type fg: Colortype
+ :param bg: グラフ内の背景色を指定する。
+ :type bg: Colortype
+ :param dpi: 1インチあたりのドット数を指定する。
+ :type dpi: Numbertype
+ :param graph_grid: グラフのグリッド線の色を指定する。
+ :type graph_grid: Colortype
+ :param grid_xy: x軸とy軸にグリッド線を表示させるか指定する。`grid_x`,`grid_y`より優先度が高い。
+ :type grid_xy: bool
+ :param grid_x: x軸にグリッド線を表示させるか指定する。grid_xyより優先度が低い。
+ :type grid_x: bool
+ :param grid_y: y軸にグリッド線を表示させるか指定する。grid_xyより優先度が低い。
+ :type grid_y: bool
+ :param y_verwrit: y軸のラベルを縦書きか横書きかを指定する。
+ :type y_verwrit: Literal['horizontal','vertical']
+ :param xmajorint: x軸の目盛りを整数で自動調整させるか指定する。
+ :type xmajorint: bool
+ :param ymajorint: y軸の目盛りを整数で自動調整させるか指定する。
+ :type ymajorint: bool
+ :param ticksshow: x軸,y軸のグリッド線と目盛り値について表示するかを指定する。
+ :type ticksshow: bool
+ :param xticksshow: x軸のグリッド線と目盛り値について表示するかを指定する。
+ :type xticksshow: bool
+ :param yticksshow: y軸のグリッド線と目盛り値について表示するかを指定する。
+ :type yticksshow: bool
+ :param xticksdirection: x軸の目盛りの向きを指定する。
+ :type xticksdirection: Literal['out','in','inout']
+ :param yticksdirection: y軸の目盛りの向きを指定する。
+ :type yticksdirection: Literal['out','in','inout']
+ :param xnumticks: x軸の目盛りの数を指定する。
+ :type xnumticks: Numbertype|None
+ :param ynumticks: y軸の目盛りの数を指定する。
+ :type ynumticks: Numbertype|None
  :param labeltitle: 凡例のタイトルを指定する。
  :type labeltitle: bool
  :param labelframe: 凡例の背景を含む外枠を表示するか指定する。
