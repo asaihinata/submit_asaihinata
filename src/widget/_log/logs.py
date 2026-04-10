@@ -1,17 +1,14 @@
-from logging import StreamHandler, getLogger
+from logging import StreamHandler,getLogger
 from os import system as sys
 from platform import system
-
 from ._clearsave import clearsave
 from ._data import formats_dict
 from ._logfile import LogFile
-from .logtext import ColorFormatter, TextFormatter
-
+from .logtext import ColorFormatter,TextFormatter
 __all__=['Logger']
 class Logger:
- def __init__(self,name='log',level=10,format='message',sep='|',logfile=False,lclear='none'):
-  if not isinstance(sep,str):self.sep='|'
-  else:self.sep=sep
+ def __init__(self,name='log',level=10,format='message',sep='|',logfile=False,file=None,lclear='none'):
+  self.sep=sep if isinstance(sep,str) else '|'
   clearsave(lclear)
   self.level=level
   self.logger=getLogger(name)
@@ -24,7 +21,8 @@ class Logger:
   self.handler.setLevel(level)
   self.handler.setFormatter(self.formatter)
   self.logger.addHandler(self.handler)
-  if(logfile if isinstance(logfile,bool) else False):LogFile(logger=self.logger,level=self.level,format=TextFormatter(fmt=fotmat,datefmt='%Y-%m-%d %H:%M:%S'))
+  self.logfile=logfile if isinstance(logfile,bool) else False
+  if self.logfile:LogFile(file=file,logger=self.logger,level=self.level,format=TextFormatter(fmt=fotmat,datefmt='%Y-%m-%d %H:%M:%S'))
  def __str__(self):return str(self.formatter)
  def build_format(self,f):
   parts=[]

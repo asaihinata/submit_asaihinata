@@ -1,9 +1,7 @@
+from os.path import splitext
 from pathlib import Path
-
 from PIL.Image import Image
-
-from ._dialog.filedialog import asksaveasfilename
-
+from ._dialog import asksaveasfilename
 __all__=['autofile_save','autoimg_save']
 file_dict=[('All files','*.*'),('avif file','*.avif'),('bmp file','*.bmp'),('blp file','*.blp'),('eps file','*.eps'),('gif file','*.gif'),('ico file','*.ico'),('im file','*.im'),('jpg file','*.jpg'),('jp2 file','*.jp2'),('png file','*.png'),('tif file','*.tif'),('webp file','*.webp'),('dib file','*.dib'),('jpeg file','*.jpeg'),('j2k file','*.j2k'),('tiff file','*.tiff')]
 class autofile_save:
@@ -20,7 +18,7 @@ defaultextension:str='.txt'
  :param title: ダイアログのタイトルを指定する。
  :type title: str
  :param filetypes: 保存できるファイル形式の選択肢を指定する。
- :type filetypes: list[tuple[str,str]]
+ :type filetypes: list[tuple[str]]
  :param initialdir: ダイアログを開く初期ディレクトリを指定する。
  :type initialdir: str
  :param initialfile: ファイル名フィールドの初期を指定する。
@@ -31,9 +29,15 @@ defaultextension:str='.txt'
   try:
    if not Path(initialdir).is_dir():initialdir=None
   except:initialdir=None
-  self.get_path=asksaveasfilename(title=title,initialfile=initialfile,initialdir=initialdir,filetypes=filetypes,defaultextension=defaultextension)
-  if self.get_path=='':self.get_path=None
- def __str__(self):return self.get_path
+  get_path=asksaveasfilename(title=title,initialfile=initialfile,initialdir=initialdir,filetypes=filetypes,defaultextension=defaultextension)
+  if isinstance(get_path,str):
+   if splitext(get_path)[1]!=defaultextension:self.get_path=get_path+defaultextension
+   else:self.get_path=get_path
+  elif get_path=='':self.get_path=None
+ def __str__(self):
+  if self.get_path is None:
+   raise ValueError('パスが存在しません')
+  else:return self.get_path
 class autoimg_save:
  def __init__(
 self,
@@ -51,7 +55,7 @@ defaultextension:str='.png'
  :param title: ダイアログのタイトルを指定する。
  :type title: str
  :param filetypes:保存できるファイル形式の選択肢を指定する。
- :type filetypes: list[tuple[str,str]]
+ :type filetypes: list[tuple[str]]
  :param initialdir: ダイアログを開く初期ディレクトリ。
  :type initialdir: str
  :param initialfile: ファイル名フィールドの初期を指定する。

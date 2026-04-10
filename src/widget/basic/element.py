@@ -1,12 +1,8 @@
-from tkinter import (BooleanVar, Button, Checkbutton, Entry, Frame, IntVar,
-                     Label, LabelFrame, Listbox, Menu, Menubutton, Radiobutton,
-                     Scale, Spinbox, StringVar, Text)
-from tkinter.ttk import Notebook, Style, Treeview
-
-from .._function import bols, listchose, num0, nums, parsecolor
+from tkinter import BooleanVar,Button,Checkbutton,Entry,Frame,IntVar,Label,LabelFrame,Listbox,Menu,Menubutton,Radiobutton,Scale,Spinbox,StringVar,Text
+from tkinter.ttk import Notebook,Style,Treeview
+from .._function import bols,listchose,num0,nums,parsecolor
 from .._log import Logger
 from ..base import Element
-
 logger=Logger(name='element',format={'filename':None,'lineno':{'after':'行目'},'message':None}).get_logger()
 class Texts(Element):
  def __init__(self,master,kw):
@@ -145,9 +141,7 @@ class Multiline(Element):
    if isinstance(self.text,(list,tuple)):
     savetext=''
     lens=len(list(self.text))-1
-    for i,item in enumerate(list(self.text)):
-     if i==lens:savetext+=item
-     else:savetext+=f'{item}\n'
+    for i,item in enumerate(list(self.text)):savetext=(savetext+item) if i==lens else (savetext+f'{item}\n')
     self.text=savetext
     self.inserts(savetext,place='end')
    else:self.inserts(self.text,place='end')
@@ -288,9 +282,7 @@ class Radio(Element):
   if not group_data['has_default']:
    self.variable.set(self.value)
    group_data['has_default']=True
- def _count(self,val):
-  if self.text_list.get(val)==None:self.text_list[val]=1
-  else:self.text_list[val]+=1
+ def _count(self,val):self.text_list[val]=1 if self.text_list.get(val)==None else self.text_list[val]+1
  def delta(self):
   try:self.widget.destroy()
   except Exception as e:
@@ -337,9 +329,7 @@ class Checkbox(Element):
    self.widget.deselect()
    self.variable.set(False)
  def get_value(self):return self.variable.get()
- def set_value(self,value=None):
-  if isinstance(value,bool):self.variable.set(value)
-  else:self.variable.set(not self.variable.get())
+ def set_value(self,value=None):self.variable.set(value if isinstance(value,bool) else (not self.variable.get()))
  def delta(self):
   try:self.widget.destroy()
   except Exception as e:

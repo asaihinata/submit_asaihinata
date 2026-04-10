@@ -1,8 +1,6 @@
 from sys import platform
 from tkinter import Toplevel
-from tkinter.ttk import Label, Style
-
-
+from tkinter.ttk import Label,Style
 class Tooltip(Toplevel):
  _initialized=False
  def __init__(self,master,**kw):
@@ -44,9 +42,7 @@ class TooltipWrapper:
   self.tooltip.bind('<Leave>',self._on_leave_tooltip)
  def __setitem__(self,key,value):self.configure(**{key:value})
  def __getitem__(self,key):return self.cget(key)
- def cget(self,key):
-  if key=='delay':return self._delay
-  else:return self.tooltip.cget(key)
+ def cget(self,key):return self._delay if key=='delay' else self.tooltip.cget(key)
  def configure(self,**kw):
   try:self._delay=int(kw.pop('delay',self._delay))
   except ValueError:

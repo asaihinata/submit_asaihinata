@@ -1,7 +1,5 @@
 from tkinter import Misc
-
 from ...types import Literal
-
 def askcolor(
 color:str=None,
 title:str=...
@@ -15,7 +13,7 @@ title:str=...
  :rtype: tuple[None,None]|tuple[tuple[int,int,int],str]'''
 def asksaveasfilename(
 defaultextension:str='',
-filetypes:list[tuple[str,str]]=...,
+filetypes:list[tuple[str]]=...,
 initialdir:str=...,
 initialfile:str=...,
 title:str=...
@@ -24,7 +22,7 @@ title:str=...
  :param defaultextension: ファイル拡張子が省略された時に自動付与される拡張子を指定する。
  :type defaultextension: str
  :param filetypes: (ラベル,パターン)のタプルからなるシーケンスであり,'*' ワイルドカードを利用する。
- :type filetypes: list[tuple[str,str]]
+ :type filetypes: list[tuple[str]]
  :param initialdir: 最初に表示するディレクトリを指定する。
  :type initialdir: str
  :param initialfile: ダイアログ表示時の初期ファイル名を指定する。
@@ -35,7 +33,7 @@ title:str=...
  :rtype: str'''
 def askopenfilename(
 defaultextension:str='',
-filetypes:list[tuple[str,str]]=...,
+filetypes:list[tuple[str]]=...,
 initialdir:str=...,
 initialfile:str=...,
 title:str=...
@@ -44,7 +42,7 @@ title:str=...
  :param defaultextension: ファイル拡張子が省略された時に自動付与される拡張子を指定する。
  :type defaultextension: str
  :param filetypes: (ラベル,パターン)のタプルからなるシーケンスであり,'*' ワイルドカードを利用する。
- :type filetypes: list[tuple[str,str]]
+ :type filetypes: list[tuple[str]]
  :param initialdir: 最初に表示するディレクトリを指定する。
  :type initialdir: str
  :param initialfile: ダイアログ表示時の初期ファイル名を指定する。
@@ -85,6 +83,7 @@ icon:Literal['info','error','warning','question']='info'
  :type icon: Literal['info','error','warning','question']
  :param message: 情報メッセージボックスに表示させるメッセージを指定する。
  :type message: str'''
+ def __str__(self)->str:...
  def get_select(self)->str:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -104,6 +103,7 @@ icon:Literal['info','error','warning','question']='warning'
  :type icon: Literal['info','error','warning','question']
  :param message: 警告メッセージボックスに表示させるメッセージを指定する。
  :type message: str'''
+ def __str__(self)->str:...
  def get_select(self)->str:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -123,6 +123,7 @@ icon:Literal['info','error','warning','question']='warning'
  :type icon: Literal['info','error','warning','question']
  :param message: 警告メッセージボックスに表示させるメッセージを指定する。
  :type message: str'''
+ def __str__(self)->str:...
  def get_select(self)->str:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -142,6 +143,7 @@ icon:Literal['info','error','warning','question']='error'
  :type icon: Literal['info','error','warning','question']
  :param message: エラーメッセージボックスに表示させるメッセージを指定する。
  :type message: str'''
+ def __str__(self)->str:...
  def get_select(self)->str:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -161,6 +163,7 @@ icon:Literal['info','error','warning','question']='error'
  :type icon: Literal['info','error','warning','question']
  :param message: エラーメッセージボックスに表示させるメッセージを指定する。
  :type message: str'''
+ def __str__(self)->str:...
  def get_select(self)->str:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -180,6 +183,7 @@ icon:Literal['info','error','warning','question']='question'
  :type icon: Literal['info','error','warning','question']
  :param message: ダイアログに表示させるメッセージを指定する。
  :type message: str'''
+ def __str__(self)->str:...
  def get_select(self)->str:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -199,6 +203,7 @@ icon:Literal['info','error','warning','question']='question'
  :type icon: Literal['info','error','warning','question']
  :param message: ダイアログに表示させるメッセージを指定する。
  :type message: str'''
+ def __bool__(self)->bool:...
  def get_select(self)->bool:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -218,6 +223,7 @@ icon:Literal['info','error','warning','question']='question'
  :type icon: Literal['info','error','warning','question']
  :param message: ダイアログに表示させるメッセージを指定する。
  :type message: str'''
+ def __bool__(self)->bool:...
  def get_select(self)->bool:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -237,6 +243,7 @@ icon:Literal['info','error','warning','question']='question'
  :type icon: Literal['info','error','warning','question']
  :param message: ダイアログに表示させるメッセージを指定する。
  :type message: str'''
+ def __bool__(self)->bool:...
  def get_select(self)->bool|None:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。
@@ -256,6 +263,7 @@ icon:Literal['info','error','warning','question']='question'
  :type icon: Literal['info','error','warning','question']
  :param message: ダイアログに表示させるメッセージを指定する。
  :type message: str'''
+ def __bool__(self)->bool:...
  def get_select(self)->bool:'''ダイアログで選択された値を返します。
 
  :return: ダイアログで選択された値を返す。

@@ -1,8 +1,5 @@
 from itertools import product
-
 from .._graphhelp import *
-
-
 class DScatter(threeDElement):
  def __init__(self,master,kw):
   super().__init__(master,kw)
@@ -10,15 +7,14 @@ class DScatter(threeDElement):
   self.y=self._manyarr(kw.get('y'))
   self.z=self._manyarr(kw.get('z'))
   self.colorlist=self._list_loop(self.colorlist,self.max_depth)
-  self.label=self.labels(kw.get('label'))
+  self.label=self.labels(kw.get('label'))[0]
   self.marker=self.markers(kw.get('marker','o'),self.max_depth)
   self.s=num1s(kw.get('markersize'),10)
-  self.alpha=range_num(num0s(kw.get('alpha'),1),0,1,1)
-  self.plot(self.x,self.y,self.z,xlabel=self.xlabel,ylabel=self.ylabel,zlabel=self.zlabel,marker=self.marker,alpha=self.alpha,label=self.label)
- def plot(self,x,y,z,label=None,xlabel=None,ylabel=None,zlabel=None,marker='o',alpha=1):
+  self.plot(self.x,self.y,self.z,marker=self.marker,alpha=self.alpha,label=self.label)
+ def plot(self,x,y,z,label=None,marker='o',alpha=1):
   self.clear()
   self.graphdata=[self.ax.scatter(xs,ys,zs,label=label[i],marker=marker[i],alpha=alpha,c=self.colorlist[i],edgecolors=self.colorlist[i])for i,(xs,ys,zs) in enumerate(product(x,y,z))]
-  self._apply_labels(xlabel,ylabel,zlabel)
+  self._apply_labels(self.xlabel,self.ylabel,self.zlabel)
   self.legend()
  def update(self,x=None,y=None,z=None,**kw):
   self._updates(**kw)
@@ -27,9 +23,8 @@ class DScatter(threeDElement):
   if isinstance(z,NpArraytype):self.z=self._manyarr(z)
   self.marker=self.markers(kw.get('marker',self.marker),self.max_depth)
   self.s=num1s(kw.get('markersize'),self.s)
-  self.label=self.labels(kw.get('label',self.label))
-  self.alpha=range_num(num0s(kw.get('alpha',self.alpha),1),0,1,self.alpha)
-  self.plot(self.x,self.y,self.z,xlabel=self.xlabel,ylabel=self.ylabel,zlabel=self.zlabel,marker=self.marker,alpha=self.alpha,label=self.label)
+  self.label=self.labels(kw.get('label',self.label))[0]
+  self.plot(self.x,self.y,self.z,marker=self.marker,alpha=self.alpha,label=self.label)
   self._redraw()
  def get(self):return self.graphdata
  def getx(self):return self.x

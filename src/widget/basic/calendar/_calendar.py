@@ -1,17 +1,12 @@
-from calendar import TextCalendar, monthrange
-from datetime import datetime, timedelta
-from re import findall, search
+from calendar import TextCalendar,monthrange
+from datetime import datetime,timedelta
+from re import findall,search
 from tkinter import StringVar
-from tkinter.ttk import Button, Frame, Label, Style
-
+from tkinter.ttk import Button,Frame,Label,Style
 from babel.core import default_locale
-from babel.dates import (format_date, get_date_format, get_day_names,
-                         get_month_names, parse_date)
-
-from ..._function import listchose, num0
+from babel.dates import format_date,get_date_format,get_day_names,get_month_names,parse_date
+from ..._function import listchose,num0
 from .tooltip import TooltipWrapper
-
-
 class Calendar(Frame):
  date=datetime.date
  def __init__(self,master,**kw):
@@ -611,8 +606,7 @@ class Calendar(Frame):
   indexes=dict([(item[1],idx) for idx,item in enumerate(indexes)])
   numbers=findall(r'(\d+)',date)
   year=numbers[indexes['Y']]
-  if len(year)==2:year=2000+int(year)
-  else:year=int(year)
+  year=2000+int(year) if len(year)==2 else int(year)
   month=int(numbers[indexes['M']])
   day=int(numbers[indexes['D']])
   if month>12:month,day=day,month
@@ -707,8 +701,8 @@ class Calendar(Frame):
       raise TypeError('date option should be a %s instance'%(self.date))
      old_date=ev['date']
      self._calevent_dates[old_date].remove(ev_id)
-     if not self._calevent_dates[old_date]:self._reset_day(old_date)
-     else:self._show_event(old_date)
+     if self._calevent_dates[old_date]:self._show_event(old_date)
+     else:self._reset_day(old_date)
      ev['date']=date
      if date in self._calevent_dates:self._calevent_dates[date].append(ev_id)
      else:self._calevent_dates[date]=[ev_id]

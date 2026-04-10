@@ -1,16 +1,19 @@
-from tkinter import Canvas, Frame, Scrollbar, Tk
-
+from os import getcwd
+from tkinter import Canvas,Frame,Scrollbar,Tk
+from PIL import ImageGrab
 from ..types import FunctionType
-from ._function import bols, parsecolor
+from ._function import bols,listchose,parsecolor,range_num,num0s
 from ._log import Logger
+from ._save import autofile_save
 from .basic import *
 from .graph import *
-
 __all__=['WindowController']
 logger=Logger(name='window',format={'filename':None,'lineno':{'after':'行目'},'message':None}).get_logger()
 class WindowController:
  '''ウィンドウを生成する。'''
  count=0
+ @classmethod
+ def __instancecheck__(cls,ins):return isinstance(ins,WindowController)
  def __init__(self,kw):
   self.title=kw.get('title','window')
   self.layout=kw.get('layout',[])
@@ -27,6 +30,12 @@ class WindowController:
   self.size=kw.get('size',(None,None))
   self.maxmine=bols(kw.get('maxmine'),False)
   if self.maxmine:self.maxwin()
+  self.alphas=range_num(num0s(kw.get('alpha'),1),0,1,1)
+  self.fullscreens=bols(kw.get('fullscreen'),False)
+  self.topmost=bols(kw.get('topmost'),False)
+  self.alpha(self.alphas)
+  self.fullscreen(self.fullscreens)
+  self.foreground(self.topmost)
   self.location=kw.get('location',(0,0))
   self.widgets={}
   self.closed=False
@@ -82,6 +91,7 @@ class WindowController:
   if t=='Menus':widget=Menus(parent,kw)
   elif t=='Menubuttons':widget=Menubuttons(parent,kw)
   elif t=='Texts':widget=Texts(parent,kw)
+  elif t=='Expansion':widget=Expansion(parent,kw)
   elif t=='Link':widget=Link(parent,kw)
   elif t=='Images':widget=Images(parent,kw)
   elif t=='Buttons':widget=Buttons(parent,kw)
@@ -131,9 +141,14 @@ class WindowController:
   elif t=='Step':widget=Step(parent,kw)
   elif t=='Stack':widget=Stack(parent,kw)
   elif t=='Hist':widget=Hist(parent,kw)
+  elif t=='Hist2d':widget=Hist2d(parent,kw)
   elif t=='Bubble':widget=Bubble(parent,kw)
   elif t=='Linefill':widget=Linefill(parent,kw)
   elif t=='Ecdf':widget=Ecdf(parent,kw)
+  elif t=='Errorbar':widget=Errorbar(parent,kw)
+  elif t=='Eventplot':widget=Eventplot(parent,kw)
+  elif t=='Violinplot':widget=Violinplot(parent,kw)
+  elif t=='Hexbin':widget=Hexbin(parent,kw)
   else:widget=Texts(parent,{'text':f'Unknown element:{t}'})
   if widget:
    if t=='Menus':self.root.config(menu=widget.widget)
@@ -177,10 +192,6 @@ class WindowController:
  def minwin(self):
   try:self.root.iconify()
   except:pass
- def runs(self):
-  if self.loadfun:self.win_exec_funcs(funcs=self.loadfun)
-  if self.canvas:self.root.after(100,self._update_region)
-  self.root.withdraw()
  def run(self):
   if self.loadfun:self.win_exec_funcs(funcs=self.loadfun)
   if self.canvas:self.root.after(100,self._update_region)
@@ -203,3 +214,12 @@ class WindowController:
      logger.warning(f'{f} is not function type')
   else:
    logger.warning('funcs is not function type')
+ def foreground(self,bools=False):self.root.attributes('-topmost',bools)
+ def fullscreen(self,bools=False):self.root.attributes('-fullscreen',bools)
+ def alpha(self,val=1):self.root.attributes('-alpha',val)
+ def deiconify(self):self.root.deiconify()
+ def withdraw(self):self.root.withdraw()
+ def tookphoto(self,file='window',ex='.png'):
+  root=self.root
+  winx,winy=root.winfo_rootx(),root.winfo_rooty()
+  ImageGrab.grab(bbox=(winx,winy,winx+root.winfo_width(),winy+root.winfo_height())).save(str(autofile_save(title='画像を保存する',defaultextension=listchose(ex,['.png','.eps','.jpg','.jpeg','.pdf','.pgf','.ps','.raw','.rgba','.svg','.svgz','.tif','.tiff','.webp']),initialfile=file,initialdir=getcwd())))

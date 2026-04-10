@@ -1,14 +1,12 @@
-from tkinter import Misc, Tk
-from tkinter.font import Font, families
-
-from ..types import Literal, Numbertype, fontname
-from ._function import bols, font_family, listchose, nums
-
+from tkinter import Misc,Tk
+from tkinter.font import Font,families
+from ..types import Literal,Numbertype,fontname
+from ._function import bols,listchose,nums
 __all__=['fonts']
 class fonts(Font):
  def __init__(
 self,
-family:fontname=font_family,
+family:fontname='Arial',
 size:Numbertype=14,
 weight:Literal['normal','bold']='normal',
 slant:Literal['roman','italic']='roman',
@@ -20,7 +18,7 @@ root:Misc=None
 
  :param family: フォント名を指定する。
  :type family: fontname
- :param size: フォントサイズをポイント単位で指定する。
+ :param size: フォントサイズを指定する。
  :type size: Numbertype
  :param weight: フォントの太字を指定する。
  :type weight: Literal['normal','bold']
@@ -35,9 +33,9 @@ root:Misc=None
   self.fontlist=families(self.root)
   self.family=family if family in self.fontlist else self.fontlist[0]
   if self.rootj:self.root.destroy()
-  self.size=-1*abs(nums(size,14))
+  self.size=nums(size,14)
   self.weight=listchose(weight,['normal','bold'])
   self.slant=listchose(slant,['roman','italic'])
   self.underline=bols(underline,False)
   self.overstrike=bols(overstrike,False)
-  super().__init__(family=self.family,size=self.size,weight=self.weight,slant=self.slant,underline=self.underline,overstrike=self.overstrike)
+  super().__init__(family=self.family,size=self.size,weight=self.weight,slant=self.slant,underline=self.underline,overstrike=self.overstrike,root=self.root)

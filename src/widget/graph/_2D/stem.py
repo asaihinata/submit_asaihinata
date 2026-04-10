@@ -1,8 +1,6 @@
 from itertools import product
-
 from ...developer import LIST
 from .._graphhelp import *
-
 stem_line_list=['-','--','-.','-.']
 stem_mark_list=['o','+','*','.','x','_','|','square','diamond','^','v','<','>','pentagram','hexagram']
 stem_color_list=['r','g','b','c','m','y','k','w']
@@ -14,14 +12,17 @@ class Stem(twoDElement):
   self.colorlist=self._list_loop(self._stem_color_check(kw.get('color')),self.max_depth)
   self.line=self._list_loop(self._linefmt(kw.get('line')),self.max_depth)
   self.marker=self._list_loop(self._markerfmt(kw.get('marker')),self.max_depth)
-  self.label=self.labels(kw.get('label'))
+  self.label=self.labels(kw.get('label'))[0]
   self.bottom=num0s(kw.get('bottom'))
   self.orientation=listchose(kw.get('orientation'),['vertical','horizontal'])
-  self.plot(self.x,self.y,xlabel=self.xlabel,ylabel=self.ylabel,bottom=self.bottom,orientation=self.orientation,label=self.label,marker=self.marker)
- def plot(self,x,y,xlabel=None,ylabel=None,bottom=0,orientation='vertical',label=None,marker=stem_mark_list):
+  self.plot(self.x,self.y,bottom=self.bottom,orientation=self.orientation,label=self.label,marker=self.marker,alpha=self.alpha)
+ def plot(self,x,y,bottom=0,orientation='vertical',label=None,marker=stem_mark_list,alpha=1):
   self.clear()
-  self.graphdata=[self.ax.stem(xs,ys,linefmt=self._lsmc(i),markerfmt=self._markerfmt(marker)[i],basefmt=self._lsmc(i),bottom=bottom,orientation=orientation,label=label[i])for i,(xs,ys) in enumerate(product(x,y))]
-  self._apply_labels(xlabel,ylabel)
+  for i,(xs,ys) in enumerate(product(x,y)):
+   stem=self.ax.stem(xs,ys,linefmt=self._lsmc(i),markerfmt=self._markerfmt(marker)[i],basefmt=self._lsmc(i),bottom=bottom,orientation=orientation,label=label[i])
+   for j in stem.get_children():j.set_alpha(self.alpha)
+   self.graphdata.append(stem)
+  self._apply_labels(self.xlabel,self.ylabel)
   self.legend()
  def update(self,x=None,y=None,**kw):
   self._updates(**kw)
@@ -43,7 +44,7 @@ class Stem(twoDElement):
   elif isinstance(line,Arraytype):
    for i in line:
     if i in stem_line_list:set_arr.append(i)
-  if len(set_arr)==0:set_arr=stem_line_list
+  if len(set_arr)==0:return stem_line_list
   return set_arr
  def _markerfmt(self,marker):
   set_arr=[]

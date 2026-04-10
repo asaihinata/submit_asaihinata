@@ -1,6 +1,4 @@
 from .widget import *
-
-
 def counts():
  sgg.count+=1
  return sgg.count
@@ -14,6 +12,8 @@ class sgg:
  def Menubuttons(**kw):return{'count':counts(),'type':'Menubuttons',**kw}
  @staticmethod
  def Texts(**kw):return{'count':counts(),'type':'Texts',**kw}
+ @staticmethod
+ def Expansion(**kw):return{'count':counts(),'type':'Expansion',**kw}
  @staticmethod
  def Link(**kw):return{'count':counts(),'type':'Link',**kw}
  @staticmethod
@@ -94,6 +94,16 @@ class sgg:
  def Linefill(**kw):return{'count':counts(),'type':'Linefill',**kw}
  @staticmethod
  def Ecdf(**kw):return{'count':counts(),'type':'Ecdf',**kw}
+ @staticmethod
+ def Errorbar(**kw):return{'count':counts(),'type':'Errorbar',**kw}
+ @staticmethod
+ def Eventplot(**kw):return{'count':counts(),'type':'Eventplot',**kw}
+ @staticmethod
+ def Hist2d(**kw):return{'count':counts(),'type':'Hist2d',**kw}
+ @staticmethod
+ def Violinplot(**kw):return{'count':counts(),'type':'Violinplot',**kw}
+ @staticmethod
+ def Hexbin(**kw):return{'count':counts(),'type':'Hexbin',**kw}
  @classmethod
  def Popup(cls,**kw):return popup(**kw)
  @classmethod

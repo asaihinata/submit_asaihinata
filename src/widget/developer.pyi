@@ -1,14 +1,180 @@
 from collections.abc import Iterator
-from typing import Any, NoReturn, TypeVar, overload
-
-from numpy import ndarray
-
+from typing import Any,Iterable,NoReturn,overload
+from numpy import int64,ndarray
+from numpy._typing import _ShapeLike
+from numpy.random import Generator
 from ..types import Numbertype
-
-_T=TypeVar('_T')
 class clear:
- def __init__(self)->None:'''コンソールを削除する。'''
-class random:
+ def __init__(self)->None:...
+ def __dir__(self)->list[str]:...
+ @classmethod
+ def __instancecheck__(cls,ins:Any)->bool:...
+class randoms:
+ seeds:int
+ rng:Generator
+ __firstlineno__:int
+ __module__:str
+ __dict__:dict[str,Any]
+ __doc__:str
+ __sizeof__:int
+ def __dir__(self)->Iterable[str]:...
+ @classmethod
+ def __instancecheck__(cls,ins:Any)->bool:...
+ def __new__(cls)->None:
+  cls.seeds:int
+  cls.rng:Generator
+ def __init__(self)->None:
+  self.seeds:int
+  self.rng:Generator
+ @overload
+ @classmethod
+ def rand(cls)->float:'''0から1の間の値をランダムに生成する。
+
+ :return: 0から1の間の値をランダムに生成された値を返す。
+ :rtype: float'''
+ @overload
+ @classmethod
+ def rand(cls,size:_ShapeLike=None)->ndarray:'''0から1の間の値をランダムに生成した`numpy`の配列を作る。
+
+ :param size: 配列のサイズを指定する。
+ :type size: _ShapeLike
+ :return: `numpy`の配列を返す。
+ :rtype: ndarray'''
+ @overload
+ @classmethod
+ def randint(
+cls,
+low:int,
+high:int|None=None,
+size:int|tuple[int,int]|None=...,
+endpoint:bool=...
+)->int64|ndarray:'''ランダムに生成された整数を作成する。
+
+ :param low: ランダムに生成される整数の最小値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type low: int
+ :param high: ランダムに生成される整数の最大値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type high: int|None
+ :param size: 生成される配列の大きさを指定する。
+ :type size: int|tuple[int,int]|None
+ :param endpoint: 生成される値の区間を指定する。
+ :type endpoint: bool
+ :raises ValueError: `low`にint型を指定しなかった場合に発生させる
+ :raises ValueError: `high`にNoneを除く,int型を指定しなかった場合に発生させる
+ :return: ランダムに生成された整数を返す。
+ :rtype: int64|ndarray'''
+ @overload
+ @classmethod
+ def randint(
+cls,
+low:int,
+high:int|None=None,
+endpoint:bool=...
+)->int64:'''ランダムに生成された整数を作成する。
+
+ :param low: ランダムに生成される整数の最小値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type low: int
+ :param high: ランダムに生成される整数の最大値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type high: int|None
+ :param endpoint: 生成される値の区間を指定する。
+ :type endpoint: bool
+ :raises ValueError: `low`にint型を指定しなかった場合に発生させる
+ :raises ValueError: `high`にNoneを除く,int型を指定しなかった場合に発生させる
+ :return: ランダムに生成された整数を返す。
+ :rtype: int64'''
+ @overload
+ @classmethod
+ def randint(
+cls,
+low:int,
+high:int|None=None,
+size:int|tuple[int,int]|None=None,
+endpoint:bool=...
+)->ndarray:'''ランダムに生成された整数を作成する。
+
+ :param low: ランダムに生成される整数の最小値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type low: int
+ :param high: ランダムに生成される整数の最大値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type high: int|None
+ :param size: 生成される配列の大きさを指定する。
+ :type size: int|tuple[int,int]|None
+ :param endpoint: 生成される値の区間を指定する。
+ :type endpoint: bool
+ :raises ValueError: `low`にint型を指定しなかった場合に発生させる。
+ :raises ValueError: `high`にNoneを除くint型を指定しなかった場合に発生させる。
+ :return: ランダムに生成された整数を返す。
+ :rtype: int64|ndarray'''
+ @overload
+ @classmethod
+ def randint(
+cls,
+low:int,
+high:int|None=None,
+size:int|tuple[int,int]|None=...,
+endpoint:bool=True
+)->int64|ndarray:'''ランダムに生成された整数を作成する。
+
+ :param low: ランダムに生成される整数の最小値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type low: int
+ :param high: ランダムに生成される整数の最大値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type high: int|None
+ :param size: 生成される配列の大きさを指定する。
+ :type size: int|tuple[int,int]|None
+ :param endpoint: 生成される値の区間を[`low`,`high`]に指定する。
+ :type endpoint: bool
+ :raises ValueError: `low`にint型を指定しなかった場合に発生させる
+ :raises ValueError: `high`にNoneを除く,int型を指定しなかった場合に発生させる
+ :return: ランダムに生成された整数を返す。
+ :rtype: int64|ndarray'''
+ @overload
+ @classmethod
+ def randint(
+cls,
+low:int,
+high:int|None=None,
+size:int|tuple[int,int]|None=...,
+endpoint:bool=False
+)->int64|ndarray:'''ランダムに生成された整数を作成する。
+
+ :param low: ランダムに生成される整数の最小値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type low: int
+ :param high: ランダムに生成される整数の最大値を指定する。ただし`high`がNoneの場合,`low`が0に,`high`が`low`になる。
+ :type high: int|None
+ :param size: 生成される配列の大きさを指定する。
+ :type size: int|tuple[int,int]|None
+ :param endpoint: 生成される値の区間を[`low`,`high`)に指定する。
+ :type endpoint: bool
+ :raises ValueError: `low`にint型を指定しなかった場合に発生させる
+ :raises ValueError: `high`にNoneを除く,int型を指定しなかった場合に発生させる
+ :return: ランダムに生成された整数を返す。
+ :rtype: int64|ndarray'''
+ @overload
+ @classmethod
+ def randrange(cls,min=0,max=1)->float:'''`min`から`max`の範囲の値をランダムに生成する。
+
+ :param min: ランダムに生成する値の最小値を指定する。
+ :type min: int
+ :param max: ランダムに生成する値の最大値を指定する。
+ :type max: int
+ :return: 範囲内のランダムに生成された値を返す。
+ :rtype: float'''
+ @overload
+ @classmethod
+ def randrange(cls,min=0,max=1,size:_ShapeLike=None)->ndarray:
+  '''`min`から`max`の範囲の値をランダムに生成された値の配列を作成する。
+
+ :param min: ランダムに生成する値の最小値を指定する。
+ :type min: int
+ :param max: ランダムに生成する値の最大値を指定する。
+ :type max: int
+ :param size: 配列の大きさを指定する。
+ :type size: _ShapeLike
+ :return: `min`から`max`の範囲の値をランダムに生成された値の配列を返す。
+ :rtype: ndarray'''
+ @classmethod
+ def seed(cls,seeds:int)->NoReturn:'''seed値を変更する。
+
+ :param seeds: seed値を指定する。
+ :type seeds: int'''
  @classmethod
  def normal(
 self,
@@ -28,15 +194,16 @@ hierarchy:int=1
  :type hierarchy: int
  :return: 指定された行数と列数分の正規分布のnumpyの配列を返す。
  :rtype: ndarray'''
+ @overload
  @classmethod
- def rand(
+ def rands(
 cls,
 mins:Numbertype=0,
 maxs:Numbertype=1,
 lenght:int=1,
 hierarchy:int=1,
 number:bool=True
-)->ndarray:'''指定された行数と列数分のランダムに生成されたnumpyの配列を返す。
+)->ndarray:'''指定されたサイズのランダムに生成された値(整数)の配列を返す。
 
  :param mins: 生成される値の最低値を指定する。
  :type mins: Numbertype
@@ -46,9 +213,45 @@ number:bool=True
  :type lenght: int
  :param hierarchy: 生成される配列の行数を指定する。
  :type hierarchy: int
- :param number: ランダムに生成される値がint型(True)かfloat型(False)かを指定する。
+ :param number: ランダムに生成される値がint型かfloat型かを指定する。
  :type number: bool
- :return: 指定された行数と列数分のnumpyの配列を返す。
+ :return: 指定されたサイズのランダムに生成された値(整数)の配列を返す。
+ :rtype: ndarray'''
+ @overload
+ @classmethod
+ def rands(
+cls,
+mins:Numbertype=0,
+maxs:Numbertype=1,
+lenght:int=1,
+hierarchy:int=1,
+number:bool=False
+)->ndarray:'''指定されたサイズのランダムに生成された値(浮動小数点)の配列を返す。
+
+ :param mins: 生成される値の最低値を指定する。
+ :type mins: Numbertype
+ :param maxs: 生成される値の最大値を指定する。
+ :type maxs: Numbertype
+ :param lenght: 生成される配列の列数を指定する。
+ :type lenght: int
+ :param hierarchy: 生成される配列の行数を指定する。
+ :type hierarchy: int
+ :param number: ランダムに生成される値がint型かfloat型かを指定する。
+ :type number: bool
+ :return: 指定されたサイズのランダムに生成された値(浮動小数点)の配列を返す。
+ :rtype: ndarray'''
+ @classmethod
+ def listrand(
+cls,
+arr:LIST|list|tuple|ndarray,
+size:int|tuple[int,int]|None=None
+)->ndarray:'''配列から重複ありのランダムに選択された要素の配列を作成する。
+
+ :param arr: 配列を指定する。
+ :type arr: LIST|list|tuple|ndarray
+ :param size: 作成する配列の大きさを指定する。
+ :type size: int|tuple[int,int]|None
+ :return: 配列から重複ありのランダムに選択された要素の配列を返す。
  :rtype: ndarray'''
 class sort:
  __static_attributes__:tuple[str]
@@ -69,12 +272,11 @@ class sort:
  :param type: 昇順(True)か降順(False)かを指定する。
  :type type: bool'''
  def __dir__(self)->list:...
- def __delattr__(self):...
- def __getattribute__(self):...
+ def __delattr__(self,item:str)->None:...
  @classmethod
  def __instancecheck__(cls,ins)->bool:...
  def __contains__(self,val:Any)->bool:...
- def __iter__(self):...
+ def __iter__(self)->Iterator[Any]:...
  def __bool__(self)->bool:...
  def __len__(self)->int:...
  def __reversed__(self)->sort:...
@@ -89,19 +291,19 @@ class LIST:
  def __mul__(self,val:int)->LIST:...
  def __contains__(self,val)->bool:...
  def __len__(self)->int:...
- def __iter__(self)->Iterator[_T]:...
+ def __iter__(self)->Iterator[Any]:...
  def __reversed__(self)->LIST:...
  def __eq__(self,lists:LIST)->bool:...
  def __ne__(self,lists:LIST)->bool:...
  @classmethod
  def __instancecheck__(cls,ins)->bool:...
  @overload
- def __getitem__(self,val:int)->_T:...
+ def __getitem__(self,val:int)->Any:...
  @overload
  def __getitem__(self,val:slice)->list:...
  def __dir__(self)->list:...
- def __delattr__(self):...
- def __getattribute__(self):...
+ def __delattr__(self,item:str)->None:...
+ def __getattribute__(self,name:Any)->Any:...
  def flatten(self)->list:'''多次元配列を一次元配列に変換する。'''
  def get(self,val:int)->list:...
  def append(self,*arg:tuple)->None:...
@@ -118,10 +320,10 @@ class Number:
 
  :param val: 数値を指定する。
  :type val: int|float|Number
- :raises TypeError: 数値以外を指定した場合に発生させる。'''
- def __dir__(self)->list:...
- def __delattr__(self):...
- def __getattribute__(self):...
+ :raises TypeError: `val`に数値以外を指定した場合に発生させる。'''
+ def __dir__(self)->list[str]:...
+ def __delattr__(self,item:str)->None:...
+ def __getattribute__(self,name:Any)->Any:...
  @classmethod
  def __instancecheck__(cls,ins)->bool:...
  def __int__(self)->int:...
@@ -131,6 +333,7 @@ class Number:
  def __sub__(self,val:int|float|Number)->Number:...
  def __mul__(self,val:int|float|Number)->Number:...
  def __pow__(self,val:int|float|Number)->Number:...
+ def __floordiv__(self,val:int|float|Number)->Number:...
  def __ipow__(self,val:int|float|Number)->Number:...
  def __truediv__(self,val:int|float|Number)->Number:...
  def __pow__(self,val:int|float|Number)->Number:...
@@ -139,7 +342,9 @@ class Number:
  def __rsub__(self,val:int|float|Number)->Number:...
  def __rmul__(self,val:int|float|Number)->Number:...
  def __rtruediv__(self,val:int|float|Number)->Number:...
- def __floordiv__(self,val:int|float|Number)->Number:...
+ def __rmod__(self,val:int|float|Number)->Number:...
+ def __rpow__(self,val:int|float|Number)->Number:...
+ def __rfloordiv__(self,val:int|float|Number)->Number:...
  def __iadd__(self,val:int|float|Number)->Number:...
  def __isub__(self,val:int|float|Number)->Number:...
  def __imul__(self,val:int|float|Number)->Number:...
@@ -151,18 +356,8 @@ class Number:
  def __gt__(self,val:int|float|Number)->bool:...
  def __ge__(self,val:int|float|Number)->bool:...
  def __abs__(self)->Number:...
- def __round__(self,n:int=0):...
+ def __round__(self,n:int=0)->Number:...
  def __ceil__(self)->Number:...
  def __floor__(self)->Number:...
  def __neg__(self)->Number:...
  def __pos__(self)->Number:...
- def __dir__(self)->list:...
- def __sizeof__(self)->int:...
-class zips:
- def __init__(self,iterables:tuple|list=(),fillvalues:tuple|list=())->None:'''iterablesのzipを返す。
-
- :param iterables: 繰り返す配列を指定する。
- :type iterables: tuple|list
- :param fillvalues: `iterables`で要素の数が足りない時に追加する値を指定する。
- :type fillvalues: tuple|list'''
- def __iter__(self):...

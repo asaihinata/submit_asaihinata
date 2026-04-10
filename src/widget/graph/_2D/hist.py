@@ -1,12 +1,10 @@
 from .._graphhelp import *
-
-
 class Hist(twoDElement):
  def __init__(self,master,kw):
   super().__init__(master,kw)
   self.data=self._dataarr(kw.get('data'))
   self.colorlist=self._list_loop(self.colorlist,self.max_depth)
-  self.label=self.labels(kw.get('label'))
+  self.label=self.labels(kw.get('label'))[0]
   bins=kw.get('bins')
   if isinstance(bins,(list,range,tuple,np.ndarray)) or bins in ['auto','fd','doane','scott','stone','rice','sturges','sqrt']:self.bins=bins
   elif isinstance(bins,int):self.bins=num1s(bins,10)
@@ -17,22 +15,21 @@ class Hist(twoDElement):
   self.bottom=num0s(kw.get('bottom'))
   self.decimalpoint=num0s(kw.get('decimalpoint'),0)
   self.orientation=listchose(kw.get('orientation'),['vertical','horizontal'])
-  self.width=range_num(num0s(kw.get('width'),1),0,1)
-  self.plot(self.data,xlabel=self.xlabel,ylabel=self.ylabel,label=self.label,bins=self.bins,ranges=self.range,bottom=self.bottom,orientation=self.orientation,width=self.width)
- def plot(self,data,xlabel=None,ylabel=None,label=None,bins=10,ranges=None,bottom=0,orientation='vertical',width=None):
+  self.width=range_num(num0s(kw.get('width'),1),0,1,1)
+  self.plot(self.data,label=self.label,bins=self.bins,ranges=self.range,bottom=self.bottom,orientation=self.orientation,width=self.width,alpha=self.alpha)
+ def plot(self,data,label=None,bins=10,ranges=None,bottom=0,orientation='vertical',width=None,alpha=1):
   self.clear()
-  self.graphdata=[self.ax.hist(data,label=label,bins=bins,range=ranges,bottom=bottom,rwidth=width,orientation=orientation,color=self.colorlist[0])]
+  self.graphdata=[self.ax.hist(data,label=label,bins=bins,range=ranges,bottom=bottom,rwidth=width,orientation=orientation,color=self.colorlist[0],alpha=alpha)]
   self.xtickslist,self.xtickslists,pows=[],[],np.pow(10,self.decimalpoint)
   for i in self.graphdata[0][1]:
    self.xtickslist.append(i)
    self.xtickslists.append(np.floor(i*pows)/pows)
-  self._apply_labels(xlabel,ylabel)
-  self.ax.set_xticks(self.xtickslist)
-  self.ax.set_xticklabels(self.xtickslists)
+  self._apply_labels(self.xlabel,self.ylabel)
+  self.ax.set_xticks(self.xtickslist,self.xtickslists)
   self.legend()
  def update(self,data=None,**kw):
   self._updates(**kw)
-  if isinstance(data,NpArraytype):self.data=self._onearr(data)
+  if isinstance(data,NpArraytype):self.data=self._dataarr(data)
   self.bins=num1s(kw.get('bins'),self.bins)
   self.min=nums(kw.get('min'),np.min(self.data))
   self.max=nums(kw.get('max'),np.max(self.data))
@@ -41,7 +38,7 @@ class Hist(twoDElement):
   self.orientation=listchose(kw.get('orientation'),['vertical','horizontal'],self.orientation)
   self.decimalpoint=num0s(kw.get('decimalpoint'),self.decimalpoint)
   self.width=range_num(num0s(kw.get('width'),self.width),0,1,self.width)
-  self.plot(self.data,xlabel=self.xlabel,ylabel=self.ylabel,label=self.label,bins=self.bins,ranges=self.range,bottom=self.bottom,orientation=self.orientation,width=self.width)
+  self.plot(self.data,label=self.label,bins=self.bins,ranges=self.range,bottom=self.bottom,orientation=self.orientation,width=self.width)
   self._redraw()
  def get(self):return self.graphdata
  def getrange(self,num=True):return self.range if num else (self.range[0].item(),self.range[1].item())

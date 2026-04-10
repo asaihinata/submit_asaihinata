@@ -1,7 +1,2 @@
-from .filedialog import (askcolor, askdirectory, askopenfilename,
-                         asksaveasfilename)
-from .popup import (popup, popupe, popuperror, popuperroryesno, popupeyn,
-                    popupoc, popupokcansel, popupq, popupquestion, popups,
-                    popuptry, popuptrys, popupw, popupwarning,
-                    popupwarningyesno, popupwyn, popupyesno, popupyesnocansel,
-                    popupyn, popupync)
+from .dialogs import askcolor,askdirectory,askopenfilename,asksaveasfilename
+from .popup import popup,popupe,popuperror,popuperroryesno,popupeyn,popupoc,popupokcansel,popupq,popupquestion,popups,popuptry,popuptrys,popupw,popupwarning,popupwarningyesno,popupwyn,popupyesno,popupyesnocansel,popupyn,popupync

@@ -1,6 +1,4 @@
 from .._graphhelp import *
-
-
 class Ecdf(twoDElement):
  def __init__(self,master,kw):
   super().__init__(master,kw)
@@ -9,15 +7,13 @@ class Ecdf(twoDElement):
   self.complementary=bols(kw.get('complementary'),False)
   self.compress=bols(kw.get('compress'),False)
   self.orientation=listchose(kw.get('orientation'),['vertical','horizontal'])
-  self.line=self.lines(kw.get('linestyle','-'),self.max_depth)
+  self.line=self.nlines(kw.get('linestyle','-'),self.max_depth)
   self.linewidth=num0(kw.get('linewidth'),1.5)
-  self.plot(self.data,xlabel=self.xlabel,ylabel=self.ylabel,complementary=self.complementary,compress=self.compress,orientation=self.orientation,linewidth=self.linewidth,line=self.line)
- def plot(self,data,xlabel=None,ylabel=None,complementary=False,compress=False,orientation='vertical',linewidth=1.5,line='-'):
+  self.plot(self.data,complementary=self.complementary,compress=self.compress,orientation=self.orientation,linewidth=self.linewidth,line=self.line,alpha=self.alpha)
+ def plot(self,data,complementary=False,compress=False,orientation='vertical',linewidth=1.5,line='-',alpha=1):
   self.clear()
-  for i in range(self.max_depth):
-   color=self.colorlist[i]
-   self.graphdata.append(self.ax.ecdf(data[i],compress=compress,color=color,complementary=complementary,orientation=orientation,linewidth=linewidth,linestyle=line[i]))
-  self._apply_labels(xlabel,ylabel)
+  self.graphdata=[self.ax.ecdf(data[i],compress=compress,color=self.colorlist[i],complementary=complementary,orientation=orientation,linewidth=linewidth,linestyle=line[i],alpha=alpha)for i in range(self.max_depth)]
+  self._apply_labels(self.xlabel,self.ylabel)
  def update(self,data=None,**kw):
   self._updates(**kw)
   if isinstance(data,NpArraytype):self.data=self._manyarr(data)
@@ -27,7 +23,7 @@ class Ecdf(twoDElement):
   self.orientation=listchose(kw.get('orientation'),['vertical','horizontal'],self.orientation)
   self.line=self.lines(kw.get('linestyle',self.line),self.max_depth)
   self.linewidth=num0(kw.get('linewidth'),self.linewidth)
-  self.plot(self.data,xlabel=self.xlabel,ylabel=self.ylabel,complementary=self.complementary,compress=self.compress,orientation=self.orientation,linewidth=self.linewidth,line=self.line)
+  self.plot(self.data,complementary=self.complementary,compress=self.compress,orientation=self.orientation,linewidth=self.linewidth,line=self.line)
   self._redraw()
  def get(self):return self.graphdata
  def getdata(self):return self.data

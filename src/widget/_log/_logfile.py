@@ -1,14 +1,12 @@
 from logging import FileHandler
-from os.path import abspath, dirname, join, normpath
-
+from os.path import abspath,dirname,isfile,join,normpath
+from pathlib import Path
 from ._clearsave import clearsave
 from ._data import log_clear
-
-
 class LogFile:
  clearj=False
- log_file_pas=normpath(join(dirname(abspath(__file__)),'data/log.log'))
- def __init__(self,logger,level,format):
+ def __init__(self,file,logger,level,format):
+  self.log_file_pas=file if isinstance(file,str) and isfile(Path(file).resolve()) else normpath(join(dirname(abspath(__file__)),'data/log.log'))
   self.c=str(clearsave())
   self._clear_serch()
   file_handler=FileHandler(self.log_file_pas,encoding='utf-8')

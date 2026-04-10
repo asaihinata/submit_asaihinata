@@ -1,8 +1,6 @@
 from ..types import Numbertype
 from ._color import Color
-
-__all__=['bols','font_family','listchose','num0','num0s','num1s','nums','parsecolor','range_num']
-font_family='Arial'
+__all__=['bols','ints','int0','int0s','int1s','listchose','num0','num0s','num1s','nums','parsecolor','range_num']
 def listchose(val:str,arr:list,other:str=None)->str:
  '''`val`が`arr`の配列内の要素に存在するかを調べる。存在しなかった場合,otherを返す。もしotherがNoneの場合で尚且つarrが配列の場合,arrの最初の要素を返す。
 
@@ -12,6 +10,7 @@ def listchose(val:str,arr:list,other:str=None)->str:
  :type arr: list
  :param other: `val`が`arr`に存在しなかった場合に返す値を指定する。
  :type other: str
+ :return: 配列の要素を返す。
  :rtype: str'''
  if isinstance(arr,(tuple,list))and other==None:other=arr[0]
  elif not isinstance(arr,(tuple,list))and other==None:other=arr
@@ -24,6 +23,7 @@ def nums(val:Numbertype,other:Numbertype=None)->Numbertype:
  :type val: Numbertype
  :param other: 調べたい値`val`がNumbertype型ではなかったときに返す値を指定する。
  :type other: Numbertype
+ :return: 数値を返す。
  :rtype: Numbertype'''
  return val if isinstance(val,(int,float)) else other
 def num1s(val:Numbertype=0,mins:Numbertype=1)->Numbertype:
@@ -36,15 +36,6 @@ def num1s(val:Numbertype=0,mins:Numbertype=1)->Numbertype:
  :return: 数値を返す。
  :rtype: Numbertype'''
  return val if isinstance(val,(int,float))and 1<=val else mins
-def num0(val:Numbertype=0,mins:Numbertype=0)->Numbertype:
- '''valが0より大きい数値かを調べる。
-
- :param val: 調べたい数値を指定する。
- :type val: Numbertype
- :param mins: 調べたい数値`val`の最低値を指定する。
- :type mins: Numbertype
- :rtype: Numbertype'''
- return val if isinstance(val,(int,float))and 0<val else mins
 def num0s(val:Numbertype=0,mins:Numbertype=0)->Numbertype:
  '''valが0以上の数値かを調べる。
 
@@ -52,8 +43,59 @@ def num0s(val:Numbertype=0,mins:Numbertype=0)->Numbertype:
  :type val: Numbertype
  :param mins: 調べたい数値`val`の最低値を指定する。
  :type mins: Numbertype
+ :return: 数値を返す。
  :rtype: Numbertype'''
  return val if isinstance(val,(int,float))and 0<=val else mins
+def num0(val:Numbertype=0,mins:Numbertype=0)->Numbertype:
+ '''valが0より大きい数値かを調べる。
+
+ :param val: 調べたい数値を指定する。
+ :type val: Numbertype
+ :param mins: 調べたい数値`val`の最低値を指定する。
+ :type mins: Numbertype
+ :return: 数値を返す。
+ :rtype: Numbertype'''
+ return val if isinstance(val,(int,float))and 0<val else mins
+def ints(val:int=0,other:int=None)->int:
+ '''`val`がint型かを調べる。
+
+ :param val: 調べたい数値を指定する。
+ :type val: int
+ :param other: 調べたい値`val`がint型ではなかったときに返す値を指定する。
+ :type other: int
+ :return: 数値を返す。
+ :rtype: int'''
+ return val if isinstance(val,int) else other
+def int1s(val:int=0,mins:int=1)->int:
+ '''`val`が1以上の正の整数かを調べる。
+
+ :param val: 調べたい数値を指定する。
+ :type val: int
+ :param mins: 調べたい数値`val`の最低値を指定する。
+ :type mins: int
+ :return: 数値を返す。
+ :rtype: int'''
+ return val if isinstance(val,int)and 1<=val else mins
+def int0s(val:int=0,mins:int=0)->int:
+ '''valが0以上の正の整数かを調べる。
+
+ :param val: 調べたい数値を指定する。
+ :type val: int
+ :param mins: 調べたい数値`val`の最低値を指定する。
+ :type mins: int
+ :return: 数値を返す。
+ :rtype: int'''
+ return val if isinstance(val,int)and 0<=val else mins
+def int0(val:int=0,mins:int=0)->int:
+ '''valが0より大きいの正の整数かを調べる。
+
+ :param val: 調べたい数値を指定する。
+ :type val: int
+ :param mins: 調べたい数値`val`の最低値を指定する。
+ :type mins: int
+ :return: 数値を返す。
+ :rtype: int'''
+ return val if isinstance(val,int)and 0<val else mins
 def range_num(
 val:Numbertype,
 mins:Numbertype=None,
@@ -70,11 +112,12 @@ others:Numbertype=None
  :type maxs: Numbertype
  :param others: 指定した`val`が指定した範囲ではなかった場合に返す値を指定する。
  :type others: Numbertype
+ :return: 数値を返す。
  :rtype: Numbertype'''
  if (not isinstance(mins,(int,float))) or (not isinstance(maxs,(int,float))):return others
  if maxs<mins:mins,maxs=maxs,mins
  if mins<=val<=maxs:return val
- else:return others
+ return others
 def bols(j:bool,o:bool=True)->bool:
  '''`j`がbool型かを判断する。
 
@@ -82,6 +125,7 @@ def bols(j:bool,o:bool=True)->bool:
  :type j: bool
  :param other: `j`がbool型ではなかったときに返す値を指定する。
  :type other: bool
+ :return: bool型を返す。
  :rtype: bool'''
  if isinstance(j,bool):return j
  return o
@@ -92,5 +136,6 @@ def parsecolor(val:str,other:str=None)->str:
  :type value: str
  :param other: `value`がNoneなどの色の値ではない時に指定する色を指定する。
  :type other: str
+ :return: 色名を返す。
  :rtype: str'''
  return str(Color(val,other))

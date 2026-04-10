@@ -1,7 +1,5 @@
 import logging
-
-from ...types import Literal, NoReturn
-
+from ...types import Literal,NoReturn
 class Logger:
  def __init__(
 self,
@@ -10,6 +8,7 @@ level:int=10,
 format:str|list='message',
 sep:str='|',
 logfile:bool=False,
+file:str=...,
 lclear:Literal['none','once','do',None,'',' ']='none'
 )->Logger:'''ログを作成する。
 
@@ -23,10 +22,13 @@ lclear:Literal['none','once','do',None,'',' ']='none'
  :type sep: str
  :param logfile: ログファイルにログを保存するか指定する。
  :type logfile: bool
+ :param file: ログの保存先のファイルを指定する。
+ :type file: str
  :param lclear: ログファイルに書き込まれたログの削除の仕方を指定する。
  :type lclear: Literal['none','once','do',None,'',' ']'''
- def get_logger(self)->logging.Logger:'''
+ def get_logger(self)->logging.Logger:'''logging.Loggerを返す。
+
  :return: self.logger
- :rtype: logging.Loggerを返す'''
+ :rtype: logging.Loggerを返す。'''
  @classmethod
  def clear(cls)->NoReturn:'''コンソールを消す。'''

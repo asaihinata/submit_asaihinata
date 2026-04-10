@@ -1,0 +1,9 @@
+{
+"[python]":{"files.trimTrailingWhitespace":false},
+"files.exclude":{".git":false,"**/__pycache__":true,"**/_import.py":true,"**/demo/data.py":true,"README.md":false},
+"gitlens.codeLens.enabled":false,
+"gitlens.currentLine.enabled":false,
+"material-icon-theme.folders.associations":{"test-graph":"test","test-log":"test","test-widget":"test"},
+"python-envs.defaultEnvManager":"ms-python.python:system",
+"search.exclude":{".gitignore":true,".vscode/settings.json":true,"**/.git":true,"**/color.json":true,"**/demo":true,"**/docs":true,"**/tests":true,"pyproject.toml":true}
+}

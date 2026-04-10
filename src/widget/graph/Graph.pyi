@@ -1,12 +1,9 @@
 from tkinter import Misc
-
 from matplotlib.axes._axes import Axes
 from matplotlib.figure import Figure
 from mpl_toolkits.mplot3d.axes3d import Axes3D
-from numpy import float64, ndarray
-
+from numpy import float64,ndarray
 from ...types import *
-
 graph_color:list
 MARKERS:dict
 SOLID:dict
@@ -19,7 +16,8 @@ fg:Colortype='#000000',
 bg:Colortype='#ffffff',
 graph_grid:Colortype='#b7b7b7',
 title:str=...,
-dpi:Numbertype=100
+dpi:Numbertype=100,
+alpha=1
 )->None:
   '''2Dグラフと3Dグラフの基盤のグラフを作成する。
 
@@ -45,6 +43,7 @@ dpi:Numbertype=100
   self.graph_grid:Colortype
   self.title:str
   self.dpi:Numbertype
+  self.alpha:Numbertype
   self.ax:Axes|Axes3D
   self.max_depth:int
  def photo(
@@ -63,13 +62,18 @@ dpi:Numbertype=100
  :rtype: NoReturn'''
  def _color_check(self,color:list)->list:...
  def _list_loop(self,lin:list|tuple,num:int)->list:...
- def legend(
+ def legend(self,anchor:TupleNumbertype2|None=None)->NoReturn:...
+ def _anchor(
 self,
-anchor:TupleNumbertype2|None=None,
-loc:Literal['best','upper right','upper left','lower left','lower right','right','center left','center right','lower center','upper center','center']='upper right'
-)->NoReturn:...
+val:ListNumbertype2|ListNumbertype4|TupleNumbertype2|TupleFloat4|None=None,
+other:ListNumbertype2|ListNumbertype4|TupleNumbertype2|TupleFloat4|None=None
+)->None:'''凡例の位置を決定する。'''
+ def _getlabelplace(
+self,
+place:str|int=...,
+other:Literal['upper right','upper left','lower left','lower right','right','center left','center right','lower center','upper center','center','best']='upper right'
+)->str:'''凡例の位置の基準を決定する。'''
  def pielabel(self,data:NpArraytype,label:Arraytype)->list:...
- def onelabel(self,label:labeltype)->list:...
  def labels(self,label:labeltype)->list:...
  def markers(self,serch:str)->str:'''`serch`で指定したマーカーが`MARKERS`に存在するかを調べる
 
@@ -79,7 +83,12 @@ loc:Literal['best','upper right','upper left','lower left','lower right','right'
 参考
 ----
 * https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers'''
- def lines(self,serch:str)->str:'''serch`で指定した枠線が`SOLID`に存在するかを調べる
+ def lines(self,serch:str)->str:'''serch`で指定した枠線が`FMTSOLID`に存在するかを調べる
+
+ :param serch: `FMTSOLID`に調べたいを指定する。
+ :type serch: str
+ :rtype: str'''
+ def nlines(self,serch:str)->str:'''serch`で指定した枠線が`SOLID`に存在するかを調べる
 
  :param serch: `SOLID`に調べたいを指定する。
  :type serch: str
@@ -180,8 +189,7 @@ ylabel:labeltype
  def _apply_labels(
 self,
 xlabel:labeltype=None,
-ylabel:labeltype=None,
-zlabel:labeltype=None
+ylabel:labeltype=None
 )->NoReturn:'''2Dのグラフのx軸,y軸のラベルを作成する。
 
  :param xlabel: x軸のラベルを指定する。
@@ -197,18 +205,12 @@ zlabel:labeltype=None
  def getbound(self)->tuple[
 tuple[float64,float64],
 tuple[float64,float64]
-]:
-  '''x軸,y軸の下限値と上限値を昇順で返す。'''
- def getxbound(self)->tuple[float64,float64]:
-  '''x軸の下限値と上限値を昇順で返す。'''
- def getybound(self)->tuple[float64,float64]:
-  '''y軸の下限値と上限値を昇順で返す。'''
- def getticks(self)->tuple[ndarray,ndarray]:
-  '''x軸,y軸の目盛りの位置を座標で返します。'''
- def getxticks(self)->ndarray:
-  '''x軸の目盛りの位置を座標で返します。'''
- def getyticks(self)->ndarray:
-  '''y軸の目盛りの位置を座標で返します。'''
+]:'''x軸,y軸の下限値と上限値を昇順で返す。'''
+ def getxbound(self)->tuple[float64,float64]:'''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:'''y軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray]:'''x軸,y軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:'''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:'''y軸の目盛りの位置を座標で返します。'''
 class threeDElement(GElement):
  def __init__(
 self,
@@ -330,17 +332,10 @@ tuple[float64,float64],
 tuple[float64,float64],
 tuple[float64,float64]
 ]:'''x軸,y軸,z軸の下限値と上限値を昇順で返す。'''
- def getxbound(self)->tuple[float64,float64]:
-  '''x軸の下限値と上限値を昇順で返す。'''
- def getybound(self)->tuple[float64,float64]:
-  '''y軸の下限値と上限値を昇順で返す。'''
- def getzbound(self)->tuple[float64,float64]:
-  '''z軸の下限値と上限値を昇順で返す。'''
- def getticks(self)->tuple[ndarray,ndarray,ndarray]:
-  '''x軸,y軸,z軸の目盛りの位置を座標で返します。'''
- def getxticks(self)->ndarray:
-  '''x軸の目盛りの位置を座標で返します。'''
- def getyticks(self)->ndarray:
-  '''y軸の目盛りの位置を座標で返します。'''
- def getzticks(self)->ndarray:
-  '''z軸の目盛りの位置を座標で返します。'''
+ def getxbound(self)->tuple[float64,float64]:'''x軸の下限値と上限値を昇順で返す。'''
+ def getybound(self)->tuple[float64,float64]:'''y軸の下限値と上限値を昇順で返す。'''
+ def getzbound(self)->tuple[float64,float64]:'''z軸の下限値と上限値を昇順で返す。'''
+ def getticks(self)->tuple[ndarray,ndarray,ndarray]:'''x軸,y軸,z軸の目盛りの位置を座標で返します。'''
+ def getxticks(self)->ndarray:'''x軸の目盛りの位置を座標で返します。'''
+ def getyticks(self)->ndarray:'''y軸の目盛りの位置を座標で返します。'''
+ def getzticks(self)->ndarray:'''z軸の目盛りの位置を座標で返します。'''

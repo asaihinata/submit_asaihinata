@@ -1,39 +1,72 @@
-from math import ceil, floor
+from math import ceil,floor
 from os import system as sys
 from platform import system
 from sys import getsizeof
-
-from numpy import ndarray
-from numpy.random import default_rng
-
+from numpy import array,ndarray
+from numpy.random import choice,default_rng
 from ..types import Numbertype
-
-__all__=['clear','LIST','Number','random','sort','zips']
+__all__=['clear','LIST','Number','randoms','sort']
 class clear:
+ '''コンソールを削除する。'''
  def __init__(self):sys('cls' if system()=='Windows'else'clear')
-class random:
+ def __str__(self):return 'clear'
  @classmethod
- def __instancecheck__(cls,ins):return isinstance(ins,random)
+ def __instancecheck__(cls,ins):return isinstance(ins,clear)
+class randoms:
+ '''ランダムな値を生成する。'''
+ seeds,rng=42,default_rng(seed=42)
+ def __new__(cls):cls.seeds,cls.rng=42,default_rng(seed=42)
+ def __init__(self):self.seeds,self.rng=42,default_rng(seed=42)
+ def __sizeof__(self):return super().__sizeof__()+getsizeof(self.rng)+getsizeof(self.seeds)
+ @classmethod
+ def __instancecheck__(cls,ins):return isinstance(ins,randoms)
+ @classmethod
+ def seed(cls,seeds):
+  if isinstance(seeds,int):cls.seeds,cls.rng=seeds,default_rng(seed=seeds)
+ @classmethod
+ def rand(cls,size=None):return cls._rand(size)
+ @classmethod
+ def randint(cls,low,high=None,size=None,endpoint=False):
+  if not isinstance(low,int):
+   raise ValueError('lowに数値を指定してください')
+  if high is not None and not isinstance(high,int):
+   raise ValueError('highに数値を指定してください')
+  return cls._randint(low,high=high,size=size,endpoint=endpoint)
+ @classmethod
+ def randrange(cls,min=0,max=1,size=None):
+  if not isinstance(min,(int,float,Number)) and not isinstance(max,(int,float,Number)):
+   raise TypeError('minとmaxの型が数値の型ではありません。')
+  elif not isinstance(min,(int,float,Number)):
+   raise TypeError('minの型が数値の型ではありません。')
+  elif not isinstance(max,(int,float,Number)):
+   raise TypeError('maxの型が数値の型ではありません。')
+  if max<min:min,max=max,min
+  return cls._randrange(min,max,size)
  @classmethod
  def normal(cls,loc=0,scale=1,lenght=1,hierarchy=1):
-  try:
-   if not isinstance(scale,Numbertype):scale=loc
-   return default_rng().normal(loc,scale,(hierarchy,lenght))
-  except:
-   raise ValueError('error')
+  if not isinstance(scale,Numbertype):scale=loc
+  return cls.rng.normal(loc,scale,(hierarchy,lenght))
  @classmethod
- def rand(cls,mins=0,maxs=1,lenght=1,hierarchy=1,number=True):
-  try:
-   if maxs<mins:mins,maxs=maxs,mins
-   if number:return default_rng().integers(low=mins,high=maxs,size=(hierarchy,lenght))
-   return default_rng().uniform(low=mins,high=maxs,size=(hierarchy,lenght))
-  except:
-   raise ValueError('error')
+ def rands(cls,mins=0,maxs=1,lenght=1,hierarchy=1,number=True):
+  if maxs<mins:mins,maxs=maxs,mins
+  if number:return cls.rng.integers(low=mins,high=maxs,size=(hierarchy,lenght))
+  return cls.rng.uniform(low=mins,high=maxs,size=(hierarchy,lenght))
+ @staticmethod
+ def _rand(size):return randoms.rng.random(size)
+ @staticmethod
+ def _randint(low,high=None,size=None,endpoint=False):return randoms.rng.integers(low,high=high,size=size,endpoint=endpoint)
+ @staticmethod
+ def _randrange(low,high,size):return randoms.rng.random(size)*(high-low)+low
+ @classmethod
+ def listrand(cls,arr,size=None):
+  if not isinstance(arr,(LIST,list,tuple,ndarray)):
+   raise TypeError('配列の型を指定してください')
+  return choice(array(list(arr)if isinstance(arr,LIST) else arr,dtype=object),size=size)
 class LIST:
  __slots__=('lists')
  def __init__(self,lists=None,*arg):
   if isinstance(lists,list):self.lists=lists
-  elif isinstance(lists,(tuple,range)):self.lists=list(lists)
+  elif isinstance(lists,(tuple,range,LIST)):self.lists=list(lists)
   elif isinstance(lists,ndarray):self.lists=lists.tolist()
   else:self.lists=[lists]
   for i in arg:self.lists.append(i)
@@ -179,17 +212,17 @@ class sort:
   if all(ord(i)>127 or i.isspace() for i in item_str):return(1,item_str,'')
   return(0,item_str,'')
 class Number:
- __slots__=('val','_type_')
- def __init__(self,val=None):
+ __slots__=('val',)
+ def __init__(self,val):
   if not isinstance(val,(Number,int,float)):
    raise TypeError('数値を指定しなさい。')
-  if isinstance(val,Number):self.val=float(val) if val._types()==float else int(val)
-  self.val,self._type_=val,type(val)
+  if isinstance(val,Number):self.val=val.val
+  else:self.val=val
  @classmethod
  def __instancecheck__(cls,ins):return isinstance(ins,Number)
  def __delattr__(self,item):
-  if item in ['val','_type_']:
-   raise AttributeError(f'The \'{item}\' attribute can\'t be deleted.')
+  if item=='val':
+   raise AttributeError(f'The \'val\' attribute can\'t be deleted.')
   super().__delattr__(item)
  def __getattribute__(self,name):return super().__getattribute__(name)
  def __int__(self):return int(self.val)
@@ -213,6 +246,9 @@ class Number:
  def __truediv__(self,val):
   self.val=self.val/self._maths_(val)
   return self
+ def __floordiv__(self,val):
+  self.val=self.val//self._maths_(val)
+  return self
  def __radd__(self,val):
   self.val=self._maths_(val)+self.val
   return self
@@ -225,8 +261,14 @@ class Number:
  def __rtruediv__(self,val):
   self.val=self._maths_(val)/self.val
   return self
- def __floordiv__(self,val):
-  self.val=self.val//self._maths_(val)
+ def __rmod__(self,val):
+  self.val=self._maths_(val)%self.val
+  return self
+ def __rpow__(self,val):
+  self.val=self._maths_(val)**self.val
+  return self
+ def __rfloordiv__(self,val):
+  self.val=self._maths_(val)//self.val
   return self
  def __iadd__(self,val):
   self.val+=self._maths_(val)
@@ -243,8 +285,8 @@ class Number:
  def __abs__(self):
   self.val=abs(self.val)
   return self
- def __eq__(self,val):return self.val==self._maths_(val)
- def __ne__(self,val):return self.val!=self._maths_(val)
+ def __eq__(self,val):return self.val==(val.val if isinstance(val,Number) else val)
+ def __ne__(self,val):return self.val!=(val.val if isinstance(val,Number) else val)
  def __lt__(self,val):return self.val<self._maths_(val)
  def __le__(self,val):return self.val<=self._maths_(val)
  def __gt__(self,val):return self.val>self._maths_(val)
@@ -263,13 +305,7 @@ class Number:
   return self
  def __pos__(self):return self
  def __sizeof__(self):return super().__sizeof__()+getsizeof(self.val)
- def _types(self):return self._type_
  def _maths_(self,val):
-  if isinstance(val,Number):return float(val) if val._types()==float else int(val)
-  try:Number(val)
-  except Exception as e:
-   raise ValueError(e)
-  return val
-class zips:
- def __init__(self,iterables=(),fillvalues=()):self.it,self.fi=iterables,fillvalues
- def __iter__(self):return zip(*[list(i)+[v]*(max(len(i)for i in self.it)-len(i))for i,v in zip(self.it,self.fi)])
+  if isinstance(val,Number):return val.val
+  elif isinstance(val,(int,float)):return val
+  raise ValueError('数値を指定してください')

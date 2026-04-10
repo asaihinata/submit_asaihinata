@@ -1,7 +1,5 @@
 from os.path import split
-from tkinter import _destroy_temp_root, _get_temp_root
-
-
+from tkinter import _destroy_temp_root,_get_temp_root
 class Dialog:
  command=None
  def __init__(self,master=None,**options):
@@ -66,3 +64,9 @@ class Open(_Dialog):
    return result
   if not widget.tk.wantobjects()and 'multiple' in self.options:return self._fixresult(widget,widget.tk.splitlist(result))
   return _Dialog._fixresult(self,widget,result)
+def askopenfilename(**options):return Open(**options).show()
+def asksaveasfilename(**options):return SaveAs(**options).show()
+def askdirectory(**options):return Directory(**options).show()
+def askcolor(color=None,**options):
+ if color:options,options['initialcolor']=options.copy(),color
+ return Chooser(**options).show()

@@ -1,18 +1,16 @@
-from re import compile, findall
-
+from re import compile,findall
 from .data import getjson
-
 __all__=['Color']
 COLOR_DATA,HEX6_RE,HEX3_RE,RGB_RE,RGBA_RE,HSV_RE=getjson('color'),compile(r'^#[0-9a-f]{6}$'),compile(r'^#[0-9a-f]{3}$'),compile(r'^rgb\((\d+),(\d+),(\d+)\)$'),compile(r'^rgba\((\d+),(\d+),(\d+),([0-9.]+)\)$'),compile(r'^hsv\((\d+),(\d+),(\d+)\)$')
 class Color:
  '''16進数カラーコード,カラー名,rgb,rgba,hsvを16進数カラーコードに変換する。'''
- def __init__(self,color:str,other:str=None)->None:
+ def __init__(self,color:str,other:str|None=None)->None:
   '''colorで指定した16進数カラーコード,カラー名,rgb,rgba,hsvを16進数カラーコードに変換する。
 
  :param color: 16進数カラーコード,カラー名,rgb,rgba,hsvを16進数カラーコードを指定する。
  :type color: str
  :param other: colorを16進数カラーコードに変換する際,何らかの例外が発生した際に返す値を指定する。
- :type other: str
+ :type other: str|None
  :raises ValueError: colorが色ではない時に発生させる。'''
   self.txt=self._color(color,other)
  def _color(self,color,other):

@@ -1,26 +1,23 @@
 from os import getcwd
-
-import matplotlib.pyplot as plt
 from matplotlib.axes._axes import Axes
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from matplotlib.ticker import LinearLocator, MaxNLocator
+import matplotlib.pyplot as plt
+from matplotlib.ticker import LinearLocator,MaxNLocator
 from mpl_toolkits.mplot3d.axes3d import Axes3D
-from numpy import array, ndarray
-
-from ...types import Arraytype, Numbertype
-from .._function import (bols, listchose, num0s, num1s, nums, parsecolor,
-                         range_num)
+from numpy import array,ndarray
+from ...types import Arraytype,Numbertype
+from .._function import bols,listchose,num0s,num1s,nums,parsecolor,range_num
 from .._log import Logger
 from .._save import autofile_save
 from ..developer import LIST
-from .support.Graphhelp import Marker, Solid
-from .support.List import Manylist, Onelist
-
+from .support.Graphhelp import Marker,NSolid,Solid
+from .support.List import Manylist,Onelist
 __all__=['twoDElement','threeDElement']
 logger=Logger(name='Graph',format={'filename':None,'lineno':{'after':'行目'},'message':None}).get_logger()
 graph_color=['#4477aa','#ee7733','#228833','#aa66cc','#77aadd','#ffa94d','#55aa55','#cc3311','#cc99ff','#ff8888','#444444','#888888','#332288','#88ccee','#44aa99','#117733','#999933','#ddcc77','#cc6677','#882255','#aa4499','#dddddd']
 class GElement:
+ __slots__=('anchor','ax','colorlist','dpi','fg','fig','graph','graphdata','labelalpha','labelframe','labeljudge','labelplace','labelshadow','labeltitle','master','size','ticksshow','title','widget','_canvas_widget','graph_bg','graph_grid','max_depth')
  def __init__(self,master,kw):
   self.master=master
   self.widget=None
@@ -35,12 +32,15 @@ class GElement:
   self.graph_grid=parsecolor(kw.get('graph_grid'),'#b7b7b7')
   self.title=kw.get('title')
   self.colorlist=self._color_check(kw.get('color',graph_color))
+  self.alpha=range_num(num0s(kw.get('alpha'),1),0,1,1)
   # グラフの表示
   self.dpi=num1s(kw.get('dpi'),100)
   self.fig=Figure(figsize=(self.size[0]/100,self.size[1]/100),dpi=self.dpi,facecolor=self.graph_bg)
   self.ax:Axes|Axes3D
   # ラベル
   self.labeljudge=True
+  self.anchor=self._anchor(kw.get('labelanchor'))
+  self.labelplace=self._getlabelplace(self.anchor,kw.get('labelplace'))
   self.labeltitle=kw.get('labeltitle')
   self.labelframe=bols(kw.get('labelframe'))
   self.labelshadow=bols(kw.get('labelshadow'),False)
@@ -65,7 +65,7 @@ class GElement:
    logger.error(f'Graph redraw error:{e}')
  def _size(self,sizes=(500,400)):
   if isinstance(sizes,Arraytype)and len(list(sizes))==2:
-   if isinstance(sizes[0],Numbertype)and isinstance(sizes[1],Numbertype):return tuple(sizes)
+   if(isinstance(i,(int,float))for i in sizes):return tuple(sizes)
    else:
     if not isinstance(sizes[0],Numbertype):sizes[0]=500
     if not isinstance(sizes[1],Numbertype):sizes[1]=400
@@ -73,25 +73,33 @@ class GElement:
   else:return(500,400)
  def markers(self,serch=None,num=None):return self._list_loop(list(Marker(serch)),num)
  def lines(self,serch=None,num=None):return self._list_loop(list(Solid(serch)),num)
- def legend(self,anchor=None,loc='upper right'):
-  if self.labeljudge:self.ax.legend(bbox_to_anchor=anchor,loc=listchose(loc,['upper right','upper left','lower left','lower right','right','center left','center right','lower center','upper center','center','best']),title=self.labeltitle,frameon=self.labelframe,shadow=self.labelshadow,framealpha=self.labelalpha)
+ def nlines(self,serch=None,num=None):return self._list_loop(list(NSolid(serch)),num)
+ def legend(self):
+  if self.labeljudge:self.ax.legend(bbox_to_anchor=self.anchor,loc=self.labelplace,title=self.labeltitle,frameon=self.labelframe,shadow=self.labelshadow,framealpha=self.labelalpha)
+ def _anchor(self,val,other=None):
+  if(isinstance(val,(list,tuple)) and (len(val)==2 or len(val)==4) and all(isinstance(i,(int,float))for i in val)):return val
+  return other
+ def _getlabelplace(self,place,other='upper right'):
+  labelplacelist=['upper right','upper left','lower left','lower right','right','center left','center right','lower center','upper center','center','best']
+  if isinstance(place,int) and 0<=place<=10:return labelplacelist[int]
+  elif place in labelplacelist:return place
+  return listchose(other,labelplacelist)
  def pielabel(self,data,label=None):
-  if isinstance(label,(list,tuple)):
-   ldt,lla=len(data),len(label)
+  lls=label
+  if isinstance(lls,(list,tuple)):
+   ldt,lla=len(data),len(lls)
    if lla<ldt:
-    for i in range(ldt-lla):label.append(lla+i+1)
-   elif ldt<lla:label=label[:ldt]
+    for i in range(ldt-lla):lls.append(lla+i+1)
+   elif ldt<lla:lls=lls[:ldt]
   else:self.labeljudge=False
-  return label
- def onelabel(self,label):
-  if label==None:self.labeljudge=False
-  return label if isinstance(label,str) else ''
- def labels(self,label):
+  return(lls,label,type(label))
+ def labels(self,label,nums=None):
+  if not isinstance(nums,(int,float)):nums=self.max_depth
   if label==None:self.labeljudge=False
   if isinstance(label,str):lis=LIST(lists=[label])
   elif isinstance(label,(list,tuple)):lis=LIST(lists=label)
   else:lis=LIST(lists='')
-  return lis.get(self.max_depth)
+  return(lis.get(nums),label)
  def _arr(self,val,j=True):
   if not isinstance(val,(list,tuple,ndarray)):
    raise ValueError('配列で指定してください。')
@@ -126,6 +134,7 @@ class GElement:
   return relist
  def _list_loop(self,lin,num):return LIST(lin).get(num)
 class twoDElement(GElement):
+ __slots__=('_canvas_widget','anchor','ax','colorlist','data','dpi','fg','fig','graph','graph_bg','graph_grid','graphdata','grid_x','grid_xy','grid_y','labelalpha','labelframe','labeljudge','labelplace','labelshadow','labeltitle','master','max_depth','setxy','size','ticksshow','title','widget','x','xlabel','xmajorint','xnumticks','xticksdirection','xticksshow','y','y_verwrit','ylabel','ymajorint','ynumticks','yticksdirection','yticksshow')
  def __init__(self,master,kw):
   super().__init__(master,kw)
   # ラベル
@@ -191,6 +200,7 @@ class twoDElement(GElement):
   self.title=kw.get('title',self.title)
   self.xlabel=kw.get('xlabel',self.xlabel)
   self.ylabel=kw.get('ylabel',self.ylabel)
+  self.alpha=range_num(num0s(kw.get('alpha'),self.alpha),0,1,self.alpha)
  def _ticks(self):
   if self.ticksshow:
    self.ax.set_xticks([])
@@ -217,6 +227,7 @@ class twoDElement(GElement):
  def getxticks(self):return self.ax.get_xticks()
  def getyticks(self):return self.ax.get_yticks()
 class threeDElement(GElement):
+ __slots__=('_canvas_widget','anchor','ax','azim','colorlist','dpi','elev','fg','fig','graph','graph_bg','graph_grid','graphdata','grid_x','grid_xyz','grid_y','grid_z','labelalpha','labelframe','labeljudge','labelplace','labelshadow','labeltitle','master','max_depth','size','ticksshow','title','widget','xlabel','xmajorint','xnumticks','xticksdirection','xticksshow','ylabel','ymajorint','ynumticks','yticksdirection','yticksshow','zlabel','zmajorint','znumticks','zticksshow')
  def __init__(self,master,kw):
   super().__init__(master,kw)
   # グラフの基盤
@@ -241,6 +252,7 @@ class threeDElement(GElement):
   self.zticksshow=bols(kw.get('zticksshow'),False)
   self.xticksdirection=listchose(kw.get('xticksdirection'),['out','in','inout'])
   self.yticksdirection=listchose(kw.get('yticksdirection'),['out','in','inout'])
+  # その他
   if bols(kw.get('mouse_rotation')):self.ax.disable_mouse_rotation()
   self.ax.view_init(self.elev,self.azim)
   self._apply_theme_colors()
@@ -263,6 +275,7 @@ class threeDElement(GElement):
   self.xlabel=kw.get('xlabel',self.xlabel)
   self.ylabel=kw.get('ylabel',self.ylabel)
   self.zlabel=kw.get('zlabel',self.zlabel)
+  self.alpha=range_num(num0s(kw.get('alpha'),self.alpha),0,1,self.alpha)
  def _apply_theme_colors(self):
   self.ax.set_facecolor(self.graph_bg)
   self.ax.tick_params(colors=self.fg)

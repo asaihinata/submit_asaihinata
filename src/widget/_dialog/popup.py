@@ -1,8 +1,4 @@
-from tkinter import Tk
-
 from .dialogs import Message
-
-
 def _show(title=None,message=None,_icon=None,_type=None,**kw):
  if _icon and 'icon' not in kw:kw['icon']=_icon
  if _type and 'type' not in kw:kw['type']=_type
@@ -25,105 +21,85 @@ def _iconset(icon,other='info'):
  if icon in ['info','error','warning','question']:return icon
  return other
 class popups:
- def get_select(self):return self.retul
  def __init__(self,**kw):
   self.title=kw.get('title','Information')
   self.message=kw.get('message','Information message')
   self.icon=_iconset(kw.get('icon'),'info')
-  root=Tk()
-  root.withdraw()
   self.retul=showinfo(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
+ def get_select(self):return self.retul
+ def __str__(self):return str(self.retul)
 class popupw:
  def get_select(self):return self.retul
+ def __str__(self):return str(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Warning')
   self.message=kw.get('message','Warning message')
   self.icon=_iconset(kw.get('icon'),'warning')
-  root=Tk()
-  root.withdraw()
   self.retul=showwarning(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 class popupwyn:
  def get_select(self):return self.retul
+ def __str__(self):return str(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Warning')
   self.message=kw.get('message','Warning message')
   self.icon=_iconset(kw.get('icon'),'warning')
-  root=Tk()
-  root.withdraw()
   self.retul=showwarning(title=self.title,message=self.message,icon=self.icon,type='yesno')
-  root.destroy()
 class popupe:
  def get_select(self):return self.retul
+ def __str__(self):return str(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Error')
   self.message=kw.get('message','Error message')
   self.icon=_iconset(kw.get('icon'),'error')
-  root=Tk()
-  root.withdraw()
   self.retul=showerror(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 class popupeyn:
  def get_select(self):return self.retul
+ def __str__(self):return str(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Error')
   self.message=kw.get('message','Error message')
   self.icon=_iconset(kw.get('icon'),'error')
-  root=Tk()
-  root.withdraw()
   self.retul=showerror(title=self.title,message=self.message,icon=self.icon,type='yesno')
-  root.destroy()
 class popupq:
+ def __str__(self):return str(self.retul)
  def get_select(self):return self.retul
  def __init__(self,**kw):
   self.title=kw.get('title','Question')
   self.message=kw.get('message','Question message')
   self.icon=_iconset(kw.get('icon'),'question')
-  root=Tk()
-  root.withdraw()
   self.retul=askquestion(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 class popupoc:
  def get_select(self):return self.retul
+ def __bool__(self):return bool(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Question')
   self.message=kw.get('message','Question message')
   self.icon=_iconset(kw.get('icon'),'question')
-  root=Tk()
-  root.withdraw()
   self.retul=askokcancel(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 class popupyn:
  def get_select(self):return self.retul
+ def __bool__(self):return bool(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Question')
   self.message=kw.get('message','Question message')
   self.icon=_iconset(kw.get('icon'),'question')
-  root=Tk()
-  root.withdraw()
   self.retul=askyesno(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 class popupync:
  def get_select(self):return self.retul
+ def __bool__(self):return bool(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Question')
   self.message=kw.get('message','Question message')
   self.icon=_iconset(kw.get('icon'),'question')
-  root=Tk()
-  root.withdraw()
   self.retul=askyesnocancel(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 class popuptry:
  def get_select(self):return self.retul
+ def __bool__(self):return bool(self.retul)
  def __init__(self,**kw):
   self.title=kw.get('title','Question')
   self.message=kw.get('message','Question message')
   self.icon=_iconset(kw.get('icon'),'question')
-  root=Tk()
-  root.withdraw()
   self.retul=askretrycancel(title=self.title,message=self.message,icon=self.icon)
-  root.destroy()
 def popup(title='Information',message='Information message',icon='info'):return popups(title=title,message=message,icon=icon).get_select()
 def popupwarning(title='Warning',message='Warning message',icon='warning'):return popupw(title=title,message=message,icon=icon).get_select()
 def popupwarningyesno(title='Warning',message='Warning message',icon='warning'):return popupwyn(title=title,message=message,icon=icon).get_select()

@@ -1,9 +1,7 @@
 from datetime import datetime
 from tkinter import Widget
-
-from ...types import Any, Colortype, Literal, NoReturn, Numbertype, TupleInt2
+from ...types import Any,Colortype,Literal,NoReturn,Numbertype,TupleInt2
 from ..base import Element
-
 class Texts(Element):
  def delta(self)->NoReturn:'''ウィジェットを削除する。'''
  def get_text(self)->str:'''ウィジェットが表示している文字を取得する。'''
@@ -12,6 +10,8 @@ class Texts(Element):
  def set_fg(self,fg:Colortype)->NoReturn:'''ウィジェットが表示している文字色を変更する。'''
  def get_bg(self)->Colortype:'''ウィジェットが表示している背景色を取得する。'''
  def set_bg(self,bg:Colortype)->NoReturn:'''ウィジェットが表示している背景色を変更する。'''
+class Expansion(Element):
+ def delta(self)->NoReturn:'''ウィジェットを削除する。'''
 class Buttons(Element):
  def delta(self)->NoReturn:'''ウィジェットを削除する。'''
  def get_text(self)->str:'''ウィジェットが表示している文字を取得する。'''
@@ -37,9 +37,9 @@ class Input(Element):
  :type text: str
  :param place: 文字を挿入する場所を指定する。
  :type place: int|Literal['end']'''
- def select_judge(self)->NoReturn:'''Inputウィジェット内の文字が現在選択状態かを返す。
+ def select_judge(self)->bool:'''Inputウィジェット内の文字が現在選択状態かを返す。
 
- :return: Inputウィジェット内の文字が現在選択状態かを返す。(選択時:True)
+ :return: Inputウィジェット内の文字が現在選択状態かを返す。
  :rtype: bool'''
  def select_cansel(self)->NoReturn:'''Inputウィジェット内の選択状態を解除する。'''
  def all_delta(self)->NoReturn:'''Inputウィジェット内の文字を全て削除する。'''
@@ -123,7 +123,7 @@ class Checkbox(Element):
  def set_fg(self,fg:Colortype)->NoReturn:'''ウィジェットが表示している文字色を変更する。'''
  def get_bg(self)->Colortype:'''ウィジェットが表示している背景色を取得する。'''
  def set_bg(self,bg:Colortype)->NoReturn:'''ウィジェットが表示している背景色を変更する。'''
- def get_value(self)->NoReturn:'''Checkboxウィジェットにチェックされているか判定する。未チェックの場合Falseを返す。
+ def get_value(self)->bool:'''Checkboxウィジェットにチェックされているか判定する。未チェックの場合Falseを返す。
 
  :return: Checkboxウィジェットにチェックされているか判定する。
  :rtype: bool'''
@@ -133,7 +133,7 @@ class Checkbox(Element):
  :type value: bool'''
 class Tree(Element):
  def delta(self)->NoReturn:'''ウィジェットを削除する。'''
- def get_iid(self)->NoReturn:'''Treeウィジェットの全てのiidを取得する。
+ def get_iid(self)->list:'''Treeウィジェットの全てのiidを取得する。
 
  :return: Treeウィジェットの全てのiidを返す。
  :rtype: list'''
@@ -145,7 +145,7 @@ class Tree(Element):
 
  :param iid: ツリーを閉めたい`iid`を指定する。
  :type iid: str'''
- def get_path(self,iid:str)->NoReturn:'''指定した`iid`のサイド見出しを子孫を含め取得し,それらを結合し返す。
+ def get_path(self,iid:str)->str:'''指定した`iid`のサイド見出しを子孫を含め取得し,それらを結合し返す。
 
  :param iid: `iid`を指定する。
  :type iid: str
@@ -362,7 +362,7 @@ class Colorbtn(Element):
  :return: ダイアログのタイトルを返す。
  :rtype: str'''
  def dsettitle(self,titles:str)->NoReturn:'''ダイアログに表示されるタイトルを変更する。'''
- def get_color(self)->tuple[tuple[int,int,int],str]|tuple[NoReturn,NoReturn]:'''選択された色を取得する。
+ def get_color(self)->tuple[tuple[int,int,int],str]|tuple[None,None]:'''選択された色を取得する。
 
  :return: 選択された色のRGBと16進数カラーコードをタプルで((R,G,B),16進数カラーコード)で返す。
  :rtype: tuple[tuple[int,int,int],str]|tuple[NoReturn,NoReturn]'''

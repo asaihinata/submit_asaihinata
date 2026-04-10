@@ -1,12 +1,10 @@
 import numpy as np
-
 from ...developer import LIST
-
-
 class Datalist:
- def __init__(self,data:np.ndarray):
+ def __init__(self,data):
   self.data=data
-  self.ndim,self.shape=self.data.ndim,self.data.shape
+  self.ndim=self.data.ndim
+  self.shape=self.data.shape
  def T(self):return self.data.T
  def sort(self,axis=1):
   if self.ndim==1:return np.sort(self.data)
