@@ -1,0 +1,448 @@
+submit_asaihinata
+ ├── README.md
+ ├── docs
+ │   └── requirements.txt
+ ├── pyproject.toml
+ ├── src
+ │   ├── sgg
+ │   │   ├── __init__.py
+ │   │   ├── __init__.pyi
+ │   │   ├── _dialog
+ │   │   │   ├── __init__.py
+ │   │   │   ├── dialog
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── __init__.pyi
+ │   │   │   │   ├── chooser.py
+ │   │   │   │   ├── directory.py
+ │   │   │   │   ├── open.py
+ │   │   │   │   └── saveas.py
+ │   │   │   ├── maindialog
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── __init__.pyi
+ │   │   │   │   ├── _dialog.py
+ │   │   │   │   ├── _show.py
+ │   │   │   │   ├── dialog.py
+ │   │   │   │   └── message.py
+ │   │   │   └── popups
+ │   │   │       ├── __init__.py
+ │   │   │       ├── error
+ │   │   │       │   ├── __init__.py
+ │   │   │       │   └── __init__.pyi
+ │   │   │       ├── info
+ │   │   │       │   ├── __init__.py
+ │   │   │       │   └── __init__.pyi
+ │   │   │       ├── question
+ │   │   │       │   ├── __init__.py
+ │   │   │       │   ├── __init__.pyi
+ │   │   │       │   ├── askokcancel.py
+ │   │   │       │   ├── askquestion.py
+ │   │   │       │   ├── askretrycancel.py
+ │   │   │       │   ├── askyesno.py
+ │   │   │       │   └── askyesnocancel.py
+ │   │   │       ├── typing
+ │   │   │       │   └── __init__.py
+ │   │   │       └── warning
+ │   │   │           ├── __init__.py
+ │   │   │           └── __init__.pyi
+ │   │   ├── dev
+ │   │   │   ├── __init__.py
+ │   │   │   ├── _darray.py
+ │   │   │   ├── _dnumber.py
+ │   │   │   └── color
+ │   │   │       ├── __init__.py
+ │   │   │       └── color.csv
+ │   │   ├── graph
+ │   │   │   ├── __init__.py
+ │   │   │   ├── element
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── graph
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── polarelement
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── radar
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   ├── __init__.pyi
+ │   │   │   │   │   ├── custom.py
+ │   │   │   │   │   └── custom.pyi
+ │   │   │   │   ├── threeelement
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   └── twoelement
+ │   │   │   │       ├── __init__.py
+ │   │   │   │       └── __init__.pyi
+ │   │   │   ├── graph
+ │   │   │   │   ├── _2d
+ │   │   │   │   │   ├── _2gset.pyi
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   ├── bargraph
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── barhgraph
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── boxplot
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── ecdf
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── errorbar
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── eventplot
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── funnelplot
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── hatplot
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── hexbin
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── hist
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── hist2d
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── linefill
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── linegraph
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── pie
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── scatter
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── stack
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── stacked
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── stackedh
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── stem
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── step
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── violinplot
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── waterfall
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   └── waterfallh
+ │   │   │   │   │       ├── __init__.py
+ │   │   │   │   │       └── __init__.pyi
+ │   │   │   │   ├── _3d
+ │   │   │   │   │   ├── _3gset.pyi
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── dscatter
+ │   │   │   │   │       ├── __init__.py
+ │   │   │   │   │       └── __init__.pyi
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── _polar
+ │   │   │   │   │   ├── _Polarset.pyi
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   ├── barpolar
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── errorpolar
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── eventpolar
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── linepolar
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   ├── scatterpolar
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   └── stempolar
+ │   │   │   │   │       ├── __init__.py
+ │   │   │   │   │       └── __init__.pyi
+ │   │   │   │   ├── _radar
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   ├── radarfill
+ │   │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   │   └── radarline
+ │   │   │   │   │       ├── __init__.py
+ │   │   │   │   │       └── __init__.pyi
+ │   │   │   │   └── dev
+ │   │   │   │       ├── __init__.py
+ │   │   │   │       └── twoArray
+ │   │   │   │           ├── __init__.py
+ │   │   │   │           └── __init__.pyi
+ │   │   │   ├── style
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── composite
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   ├── capstyle.py
+ │   │   │   │   │   └── hatch.py
+ │   │   │   │   ├── dev
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── fmt
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── getlabel
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── marker
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── solid
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   └── tool
+ │   │   │   │       ├── __init__.py
+ │   │   │   │       ├── color
+ │   │   │   │       │   ├── __init__.py
+ │   │   │   │       │   └── __init__.pyi
+ │   │   │   │       └── font
+ │   │   │   │           ├── __init__.py
+ │   │   │   │           ├── __init__.pyi
+ │   │   │   │           ├── fontfile.py
+ │   │   │   │           └── fontmanager.py
+ │   │   │   └── typing.py
+ │   │   ├── nparray
+ │   │   │   ├── __init__.py
+ │   │   │   ├── dtype
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── base
+ │   │   │   │   │   ├── __init__.py
+ │   │   │   │   │   └── __init__.pyi
+ │   │   │   │   ├── bools
+ │   │   │   │   │   └── __init__.py
+ │   │   │   │   ├── dates
+ │   │   │   │   │   └── __init__.py
+ │   │   │   │   ├── numbers
+ │   │   │   │   │   └── __init__.py
+ │   │   │   │   └── strs
+ │   │   │   │       └── __init__.py
+ │   │   │   ├── npArray
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   └── __init__.pyi
+ │   │   │   ├── npColor
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── __init__.pyi
+ │   │   │   │   ├── _color_check.py
+ │   │   │   │   ├── color.csv
+ │   │   │   │   └── data.py
+ │   │   │   ├── npDate
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── _typing.py
+ │   │   │   │   ├── datetime_format.py
+ │   │   │   │   ├── formatconversion.py
+ │   │   │   │   ├── formatconversion.pyi
+ │   │   │   │   ├── npdate.py
+ │   │   │   │   └── npdate.pyi
+ │   │   │   ├── npNumber
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   └── __init__.pyi
+ │   │   │   ├── npStatistics
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   ├── npStatisticsd.py
+ │   │   │   │   ├── npStatisticsd.pyi
+ │   │   │   │   ├── npStatisticsds.py
+ │   │   │   │   └── npStatisticsds.pyi
+ │   │   │   └── npStr
+ │   │   │       ├── __init__.py
+ │   │   │       └── __init__.pyi
+ │   │   ├── readfile
+ │   │   │   ├── Csv
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   └── __init__.pyi
+ │   │   │   ├── Json
+ │   │   │   │   ├── __init__.py
+ │   │   │   │   └── __init__.pyi
+ │   │   │   └── __init__.py
+ │   │   ├── typing.py
+ │   │   ├── version.py
+ │   │   └── widget
+ │   │       ├── __init__.py
+ │   │       ├── base
+ │   │       │   ├── __init__.py
+ │   │       │   └── __init__.pyi
+ │   │       ├── basic
+ │   │       │   ├── __init__.py
+ │   │       │   ├── common.py
+ │   │       │   ├── dev
+ │   │       │   │   ├── __init__.py
+ │   │       │   │   └── __init__.pyi
+ │   │       │   ├── existing
+ │   │       │   │   ├── __init__.py
+ │   │       │   │   ├── buttons
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── checkbox
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── column
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── frames
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── image
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── input
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── inputnumber
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── listboxs
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── menubuttons
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── menus
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── multiline
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── radio
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── slidebar
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── tab
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── table
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── tcombobox
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── texts
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   ├── tprogressbar
+ │   │       │   │   │   ├── __init__.py
+ │   │       │   │   │   └── __init__.pyi
+ │   │       │   │   └── tree
+ │   │       │   │       ├── __init__.py
+ │   │       │   │       └── __init__.pyi
+ │   │       │   └── original
+ │   │       │       ├── __init__.py
+ │   │       │       ├── barcodes
+ │   │       │       │   ├── __init__.py
+ │   │       │       │   └── __init__.pyi
+ │   │       │       ├── btnpop
+ │   │       │       │   ├── btn
+ │   │       │       │   │   ├── __init__.py
+ │   │       │       │   │   └── __init__.pyi
+ │   │       │       │   ├── colorbtn
+ │   │       │       │   │   ├── __init__.py
+ │   │       │       │   │   └── __init__.pyi
+ │   │       │       │   ├── fileLoad
+ │   │       │       │   │   ├── __init__.py
+ │   │       │       │   │   └── __init__.pyi
+ │   │       │       │   ├── folderLoad
+ │   │       │       │   │   ├── __init__.py
+ │   │       │       │   │   └── __init__.pyi
+ │   │       │       │   └── savebtn
+ │   │       │       │       ├── __init__.py
+ │   │       │       │       └── __init__.pyi
+ │   │       │       ├── imagebyte
+ │   │       │       │   ├── __init__.py
+ │   │       │       │   └── __init__.pyi
+ │   │       │       ├── imagelink
+ │   │       │       │   ├── __init__.py
+ │   │       │       │   ├── __init__.pyi
+ │   │       │       │   └── getdata.py
+ │   │       │       ├── link
+ │   │       │       │   ├── __init__.py
+ │   │       │       │   └── __init__.pyi
+ │   │       │       └── qrimg
+ │   │       │           ├── __init__.py
+ │   │       │           └── __init__.pyi
+ │   │       ├── font
+ │   │       │   ├── __init__.py
+ │   │       │   └── __init__.pyi
+ │   │       └── window
+ │   │           ├── __init__.py
+ │   │           └── __init__.pyi
+ │   └── test
+ │       ├── data
+ │       │   └── img
+ │       │       └── Lenna.png
+ │       ├── test_all.py
+ │       ├── test_graph
+ │       │   ├── application
+ │       │   │   ├── test_graph_schooldata.py
+ │       │   │   └── test_japanese.py
+ │       │   ├── basic
+ │       │   │   ├── test_bargraph.py
+ │       │   │   ├── test_barhgraph.py
+ │       │   │   ├── test_barpolar.py
+ │       │   │   ├── test_boxplot.py
+ │       │   │   ├── test_dscatter.py
+ │       │   │   ├── test_ecdf.py
+ │       │   │   ├── test_errorbar.py
+ │       │   │   ├── test_errorpolar.py
+ │       │   │   ├── test_eventplot.py
+ │       │   │   ├── test_eventpolar.py
+ │       │   │   ├── test_funne.py
+ │       │   │   ├── test_hatplot.py
+ │       │   │   ├── test_hexbin.py
+ │       │   │   ├── test_hist.py
+ │       │   │   ├── test_hist2d.py
+ │       │   │   ├── test_linefill.py
+ │       │   │   ├── test_linegraph.py
+ │       │   │   ├── test_linepolar.py
+ │       │   │   ├── test_pie.py
+ │       │   │   ├── test_radarfill.py
+ │       │   │   ├── test_radarline.py
+ │       │   │   ├── test_scatter.py
+ │       │   │   ├── test_scatterpolar.py
+ │       │   │   ├── test_stack.py
+ │       │   │   ├── test_stacked.py
+ │       │   │   ├── test_stackedh.py
+ │       │   │   ├── test_stem.py
+ │       │   │   ├── test_stempolar.py
+ │       │   │   ├── test_step.py
+ │       │   │   ├── test_violinplot.py
+ │       │   │   ├── test_waterfall.py
+ │       │   │   └── test_waterfallh.py
+ │       │   ├── data
+ │       │   │   └── csv
+ │       │   │       ├── __init__.py
+ │       │   │       ├── japan_population.csv
+ │       │   │       └── school_test_demo_data.csv
+ │       │   └── style
+ │       │       ├── test_linestyles.py
+ │       │       └── test_marker.py
+ │       └── test_widget
+ │           └── basic
+ │               └── test_all.py
+ ├── tree.txt
+ ├── .crossnote
+ │   ├── config.js
+ │   ├── head.html
+ │   ├── parser.js
+ │   └── style.less
+ ├── .editorconfig
+ ├── .gitattributes
+ └── .gitignore
+ファイル数:309
+フォルダ数:137

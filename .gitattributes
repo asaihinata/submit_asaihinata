@@ -5,3 +5,4 @@
 docs/* linguist-documentation
 .vscode/* linguist-documentation
 test/* linguist-documentation
+demo/* linguist-documentation

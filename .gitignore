@@ -1,6 +1,27 @@
+# docs
+docs/*
+!docs/dev
+!docs/requirements.txt
+!docs/data/
+# デモファイル
+demo/
+demo.py
+demo*.py
+*demo.py
+*deom*.py
+# vscode
+my-project.code-workspace
+# 隠しファイル
+.gitmessage
 .DS_Store
+.env
+# Python
+__pycache__
+*.pyc
+*.log
+# その他
 .dll
 .exe
 .ini
-__pycache__
-*.pyc
+.gitignore
+.vscode
