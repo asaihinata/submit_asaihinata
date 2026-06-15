@@ -29,6 +29,6 @@ if __name__ == "__main__":
         ]
     ]
     win = sgg.window(
-        title="マーカーの種類", layout=layout, scroll=True, maxmine=True
+        title="線のスタイルの種類", layout=layout, scroll=True, maxmine=True
     )
     win.run()

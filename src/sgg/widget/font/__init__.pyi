@@ -16,17 +16,19 @@ class fonts(Font):
         overstrike: bool = False,
         root: Misc = None,
     ) -> None:
-        """フォントに関するオブジェクト
+        """
+        フォントに関するオブジェクト
 
-        :param family: フォント名を指定する。
+        :param family: フォント名を指定する
         :type family: str
-        :param size: フォントサイズを指定する。
+        :param size: フォントサイズを指定する
         :type size: int|float
-        :param weight: フォントの太字を指定する。
+        :param weight: フォントの太字を指定する
         :type weight: Literal['normal','bold']
-        :param slant: フォントの斜体を指定する。
+        :param slant: フォントの斜体を指定する
         :type slant: Literal['roman','italic']
-        :param underline: フォントに下線を付けるか指定する。
+        :param underline: フォントに下線を付けるか指定する
         :type underline: bool
-        :param overstrike: フォントに取り消し線を付けるか指定する。
-        :type overstrike: bool"""
+        :param overstrike: フォントに取り消し線を付けるか指定する
+        :type overstrike: bool
+        """

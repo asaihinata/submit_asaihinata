@@ -20,6 +20,10 @@ method_list = [
 
 
 class NPStatisticsd:
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        raise TypeError(f"{cls.__name__}を継承をすることはできません")
+
     def __init__(self, data):
         if isinstance(data, np.ndarray):
             self.__data = data
@@ -27,7 +31,7 @@ class NPStatisticsd:
             self.__data = data.data
         else:
             raise TypeError("dataにはNPNumberもしくはnp.ndarrayを指定してください")
-        if self.__data.ndim == 1:
+        if self.__data.ndim != 1:
             raise ValueError("dataには1次元の配列を指定してください")
 
     def __repr__(self):

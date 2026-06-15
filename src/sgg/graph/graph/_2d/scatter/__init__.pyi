@@ -12,6 +12,8 @@ class Scatter(_2Gset):
         y: n_array,
         marker: Type_Marker,
         markersize: int | float,
+        regression_bool: bool,
+        linestyle: Type_Solid,
         linewidth: int | float,
         fg: ColorType,
         bg: ColorType,
@@ -21,13 +23,16 @@ class Scatter(_2Gset):
         graph_grid: ColorType,
         title: str,
     ):
-        """散布図を再表示させる。"""
+        """散布図を再表示させる"""
 
     def get(self) -> list[PathCollection]:
-        """`PathCollection`の配列を返す。"""
+        """`PathCollection`の配列を返す"""
 
     def getx(self) -> Typeget_data:
-        """`x`のデータを取得する。"""
+        """`x`のデータを取得する"""
 
     def gety(self) -> Typeget_data:
-        """`y`のデータを取得する。"""
+        """`y`のデータを取得する"""
+
+    def getcoordinate(self) -> ndarray[NDArray[float64], NDArray[float64]]:
+        """散布図の点の座標を取得する"""

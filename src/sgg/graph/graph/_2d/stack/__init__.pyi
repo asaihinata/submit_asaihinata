@@ -10,39 +10,7 @@ class Stack(_2Gset):
         self,
         x: n_array,
         y: n_array,
-        hatch: Literal[
-            None,
-            "o",
-            "oo",
-            "O",
-            "OO",
-            "x",
-            "xx",
-            "*",
-            "**",
-            "*-",
-            "+",
-            "++",
-            "+o",
-            "-",
-            "--",
-            r"-\\",
-            ".",
-            "..",
-            "/",
-            "//",
-            "/o",
-            "O.",
-            "O|",
-            "\\",
-            "\\\\",
-            "\\|",
-            "o-",
-            "x*",
-            "|",
-            "|*",
-            "||",
-        ],
+        hatch: str,
         baseline: Literal["zero", "sym", "wiggle", "weighted_wiggle"],
         fg: ColorType,
         bg: ColorType,
@@ -52,13 +20,13 @@ class Stack(_2Gset):
         graph_grid: ColorType,
         title: str,
     ):
-        """積み上げエリアチャートを再表示させる。"""
+        """積み上げエリアチャートを再表示させる"""
 
     def get(self) -> list[FillBetweenPolyCollection]:
-        """`FillBetweenPolyCollection`の配列を返す。"""
+        """`FillBetweenPolyCollection`の配列を返す"""
 
     def getx(self) -> Typeget_data:
-        """`x`のデータを取得する。"""
+        """`x`のデータを取得する"""
 
     def gety(self) -> Typeget_data:
-        """`y`のデータを取得する。"""
+        """`y`のデータを取得する"""
